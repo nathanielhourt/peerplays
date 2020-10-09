@@ -27,8 +27,6 @@
 
 #include <fc/filesystem.hpp>
 
-#include <fc/filesystem.hpp>
-
 namespace graphene { namespace chain {
    struct index_entry;
    using namespace graphene::protocol;

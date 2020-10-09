@@ -28,6 +28,7 @@
 #include <graphene/protocol/operations.hpp>
 #include <graphene/protocol/transaction.hpp>
 
+#include <graphene/chain/database.hpp>
 #include <graphene/chain/withdraw_permission_object.hpp>
 #include <graphene/chain/worker_object.hpp>
 #include <graphene/chain/confidential_object.hpp>
@@ -47,7 +48,9 @@
 #include <graphene/chain/offer_object.hpp>
 #include <graphene/chain/custom_permission_object.hpp>
 #include <graphene/chain/nft_object.hpp>
-
+#include <graphene/chain/account_role_object.hpp>
+#include <graphene/chain/sidechain_address_object.hpp>
+#include <graphene/chain/son_object.hpp>
 
 using namespace fc;
 using namespace graphene::chain;
@@ -597,6 +600,8 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
            assert( aobj != nullptr );
            accounts.insert( aobj->son_account );
            break;
+        } case son_proposal_object_type:{
+           break;
         } case son_wallet_object_type:{
            break;
         } case son_wallet_deposit_object_type:{
@@ -641,7 +646,7 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
               const auto& aobj = dynamic_cast<const transaction_history_object*>(obj);
               FC_ASSERT( aobj != nullptr );
               transaction_get_impacted_accounts( aobj->trx, accounts,
-                                                 ignore_custom_operation_required_auths);
+                                                 ignore_custom_operation_required_auths );
               break;
            } case impl_blinded_balance_object_type:{
               const auto& aobj = dynamic_cast<const blinded_balance_object*>(obj);
@@ -697,6 +702,10 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
               accounts.insert(aobj->issuer);
               if (aobj->bidder.valid())
                   accounts.insert(*aobj->bidder);
+              break;
+           } case impl_son_statistics_object_type: {
+              break;
+           } case impl_son_schedule_object_type: {
               break;
            }
       }

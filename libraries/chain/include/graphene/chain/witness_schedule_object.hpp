@@ -33,6 +33,13 @@
 
 #include <fc/uint128.hpp>
 
+#include <graphene/protocol/chain_parameters.hpp>
+
+#include <graphene/db/object.hpp>
+#include <graphene/db/generic_index.hpp>
+
+#include <fc/uint128.hpp>
+
 namespace graphene { namespace chain {
 
 typedef hash_ctr_rng<
@@ -103,7 +110,7 @@ class son_schedule_object : public graphene::db::abstract_object<son_schedule_ob
       son_scheduler scheduler;
       uint32_t last_scheduling_block;
       uint64_t slots_since_genesis = 0;
-      std::array< char, sizeof(secret_hash_type) > rng_seed;
+      std::array< char, sizeof(secret_hash_type) > rng_seed = {};
 
       /**
        * Not necessary for consensus, but used for figuring out the participation rate.

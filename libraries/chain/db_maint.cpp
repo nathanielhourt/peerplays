@@ -22,10 +22,6 @@
  * THE SOFTWARE.
  */
 
-#include <boost/multiprecision/integer.hpp>
-
-#include <fc/uint128.hpp>
-
 #include <graphene/chain/database.hpp>
 #include <graphene/chain/fba_accumulator_id.hpp>
 #include <graphene/chain/hardfork.hpp>
@@ -42,6 +38,8 @@
 #include <graphene/chain/market_object.hpp>
 #include <graphene/chain/special_authority_object.hpp>
 #include <graphene/chain/son_object.hpp>
+#include <graphene/chain/son_wallet_object.hpp>
+#include <graphene/chain/account_role_object.hpp>
 #include <graphene/chain/vesting_balance_object.hpp>
 #include <graphene/chain/vote_count.hpp>
 #include <graphene/chain/witness_object.hpp>
@@ -54,6 +52,8 @@
 #include <fc/uint128.hpp>
 
 #include <numeric>
+
+#include <boost/multiprecision/integer.hpp>
 
 #define USE_VESTING_OBJECT_BY_ASSET_BALANCE_INDEX // vesting_balance_object by_asset_balance index needed
 

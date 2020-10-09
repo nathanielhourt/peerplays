@@ -16,6 +16,9 @@
 #include <graphene/chain/account_role_object.hpp>
 #include <graphene/chain/offer_object.hpp>
 
+#include <graphene/protocol/operations.hpp>
+#include <graphene/protocol/protocol.hpp>
+
 #include <graphene/db/simple_index.hpp>
 
 #include <fc/crypto/digest.hpp>

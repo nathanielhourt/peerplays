@@ -30,6 +30,10 @@
 #include <string>
 #include <fc/variant.hpp>
 
+#include <fc/io/datastream.hpp>
+#include <fc/io/raw_fwd.hpp>
+#include <fc/variant.hpp>
+
 namespace fc { namespace ecc { class public_key; } }
 
 namespace graphene { namespace protocol {

@@ -30,12 +30,14 @@
 #include <graphene/chain/hardfork.hpp>
 #include <graphene/chain/market_object.hpp>
 #include <graphene/chain/proposal_object.hpp>
+#include <graphene/chain/son_proposal_object.hpp>
 #include <graphene/chain/transaction_history_object.hpp>
 #include <graphene/chain/withdraw_permission_object.hpp>
 #include <graphene/chain/witness_object.hpp>
 #include <graphene/chain/tournament_object.hpp>
 #include <graphene/chain/game_object.hpp>
 #include <graphene/chain/betting_market_object.hpp>
+#include <graphene/chain/offer_object.hpp>
 
 #include <graphene/protocol/fee_schedule.hpp>
 

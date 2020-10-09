@@ -1,5 +1,6 @@
 #pragma once
 #include <graphene/chain/evaluator.hpp>
+
 #include <graphene/protocol/sidechain_transaction.hpp>
 
 namespace graphene { namespace chain {

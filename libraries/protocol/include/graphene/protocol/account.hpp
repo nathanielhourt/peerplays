@@ -298,7 +298,7 @@ FC_REFLECT_ENUM( graphene::protocol::app_tag, (bookie)(rps) )
 FC_REFLECT( graphene::protocol::affiliate_reward_distribution, (_dist) );
 FC_REFLECT( graphene::protocol::affiliate_reward_distributions, (_dists) );
 
-FC_REFLECT(graphene::protocol::account_create_operation::ext, (null_ext)(owner_special_authority)(active_special_authority)(buyback_options) )
+FC_REFLECT(graphene::protocol::account_create_operation::ext, (null_ext)(owner_special_authority)(active_special_authority)(buyback_options)(affiliate_distributions) )
 FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::protocol::account_create_operation::ext>)
 FC_REFLECT( graphene::protocol::account_create_operation,
             (fee)(registrar)

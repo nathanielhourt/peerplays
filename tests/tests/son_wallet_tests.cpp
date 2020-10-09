@@ -4,6 +4,7 @@
 
 #include <graphene/chain/hardfork.hpp>
 #include <graphene/chain/son_wallet_object.hpp>
+
 #include <graphene/protocol/sidechain_defs.hpp>
 
 using namespace graphene;

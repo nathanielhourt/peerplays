@@ -265,8 +265,9 @@ void verify_authority( const vector<operation>& ops, const flat_set<public_key_t
    flat_set<account_id_type> required_active;
    flat_set<account_id_type> required_owner;
    vector<authority> other;
+   flat_set<public_key_type> available_keys;
 
-   sign_state s(sigs,get_active);
+   sign_state s(sigs,get_active, available_keys);
    s.max_recursion = max_recursion_depth;
    for( auto& id : active_aprovals )
       s.approved_by.insert( id );
@@ -450,10 +451,11 @@ void signed_transaction::verify_authority(
    bool ignore_custom_operation_required_auths,
    uint32_t max_recursion )const
 { try {
-   graphene::protocol::verify_authority( operations, get_signature_keys( chain_id ), get_active, get_owner, get_custom, ignore_custom_operation_required_auths, max_recursion );
+   graphene::protocol::verify_authority( operations, get_signature_keys( chain_id ), get_active, get_owner,
+                                         get_custom, ignore_custom_operation_required_auths, max_recursion );
 } FC_CAPTURE_AND_RETHROW( (*this) ) }
 
-} } // graphene::chain
+} } // graphene::protocol
 
 GRAPHENE_EXTERNAL_SERIALIZATION(/*not extern*/, graphene::protocol::transaction)
 GRAPHENE_EXTERNAL_SERIALIZATION(/*not extern*/, graphene::protocol::signed_transaction)

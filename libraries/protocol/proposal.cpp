@@ -113,4 +113,3 @@ GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::proposal_de
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::proposal_create_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::proposal_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::proposal_delete_operation )
-

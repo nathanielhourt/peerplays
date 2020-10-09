@@ -6,6 +6,8 @@
 #include <graphene/chain/account_role_object.hpp>
 #include <graphene/chain/hardfork.hpp>
 
+#include <graphene/protocol/operations.hpp>
+
 namespace graphene { namespace chain {
 
 void_result nft_metadata_create_evaluator::do_evaluate( const nft_metadata_create_operation& op )

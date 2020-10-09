@@ -164,4 +164,6 @@ typedef generic_index<event_object, event_object_multi_index_type> event_object_
 
 MAP_OBJECT_ID_TO_TYPE(graphene::chain::event_object)
 
-FC_REFLECT(graphene::chain::event_object, (name)(season)(start_time)(event_group_id)(at_least_one_betting_market_group_settled)(scores))
+FC_REFLECT_DERIVED(graphene::chain::event_object, (graphene::db::object),
+                   (name)(season)(start_time)(event_group_id)(at_least_one_betting_market_group_settled)(scores))
+

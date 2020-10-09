@@ -131,7 +131,7 @@ namespace graphene { namespace protocol {
       share_type calculate_fee(const fee_parameters_type &k) const;
    };
 
-} } // graphene::chain
+} } // graphene::protocol
 
 FC_REFLECT( graphene::protocol::nft_metadata_create_operation::fee_parameters_type, (fee) (price_per_kbyte) )
 FC_REFLECT( graphene::protocol::nft_metadata_update_operation::fee_parameters_type, (fee) )
@@ -146,3 +146,4 @@ FC_REFLECT( graphene::protocol::nft_mint_operation, (fee) (payer) (nft_metadata_
 FC_REFLECT( graphene::protocol::nft_safe_transfer_from_operation, (fee) (operator_) (from) (to) (token_id) (data) (extensions) )
 FC_REFLECT( graphene::protocol::nft_approve_operation, (fee) (operator_) (approved) (token_id) (extensions) )
 FC_REFLECT( graphene::protocol::nft_set_approval_for_all_operation, (fee) (owner) (operator_) (approved) (extensions) )
+

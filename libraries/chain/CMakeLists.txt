@@ -5,22 +5,13 @@ set_source_files_properties( "${CMAKE_CURRENT_BINARY_DIR}/include/graphene/chain
 
 add_dependencies( build_hardfork_hpp cat-parts )
 
-file(GLOB HEADERS "include/graphene/chain/*.hpp")
+file(GLOB HEADERS "include/graphene/chain/*.hpp" "${CMAKE_CURRENT_BINARY_DIR}/include/graphene/chain/hardfork.hpp")
+
+file(GLOB CPP_FILES "*.cpp")
 
 if( GRAPHENE_DISABLE_UNITY_BUILD )
-   set( GRAPHENE_DB_FILES
-        db_balance.cpp
-        db_bet.cpp
-        db_block.cpp
-        db_debug.cpp
-        db_getter.cpp
-        db_init.cpp
-        db_maint.cpp
-        db_management.cpp
-        db_market.cpp
-        db_update.cpp
-        db_witness_schedule.cpp
-      )
+   list(FILTER CPP_FILES EXCLUDE REGEX "[/]database[.]cpp$")
+   #message ("--- ${CPP_FILES}")
    message( STATUS "Graphene database unity build disabled" )
 else( GRAPHENE_DISABLE_UNITY_BUILD )
    set( GRAPHENE_DB_FILES
@@ -30,79 +21,7 @@ endif( GRAPHENE_DISABLE_UNITY_BUILD )
 
 ## SORT .cpp by most likely to change / break compile
 add_library( graphene_chain
-
-             # As database takes the longest to compile, start it first
-             ${GRAPHENE_DB_FILES}
-             fork_database.cpp
-
-             genesis_state.cpp
-             get_config.cpp
-             exceptions.cpp
-
-             evaluator.cpp
-             balance_evaluator.cpp
-             account_evaluator.cpp
-             assert_evaluator.cpp
-             witness_evaluator.cpp
-             committee_member_evaluator.cpp
-             asset_evaluator.cpp
-             lottery_evaluator.cpp
-             transfer_evaluator.cpp
-             proposal_evaluator.cpp
-             market_evaluator.cpp
-             vesting_balance_evaluator.cpp
-             tournament_evaluator.cpp
-             tournament_object.cpp
-             match_object.cpp
-             game_object.cpp
-             withdraw_permission_evaluator.cpp
-             worker_evaluator.cpp
-             confidential_evaluator.cpp
-             special_authority_evaluation.cpp
-             buyback.cpp
-
-             account_object.cpp
-             asset_object.cpp
-             fba_object.cpp
-             proposal_object.cpp
-             vesting_balance_object.cpp
-             small_objects.cpp
-
-             block_database.cpp
-
-             is_authorized_asset.cpp
-
-             sport_evaluator.cpp
-             event_group_evaluator.cpp
-             event_group_object.cpp
-             event_evaluator.cpp
-             event_object.cpp
-             betting_market_evaluator.cpp
-             betting_market_object.cpp
-             betting_market_group_object.cpp
-             custom_permission_evaluator.cpp
-             custom_account_authority_evaluator.cpp
-
-             affiliate_payout.cpp
-
-             offer_object.cpp
-             offer_evaluator.cpp
-             nft_evaluator.cpp
-
-###             protocol/nft.cpp
-###             protocol/account_role.cpp
-             account_role_evaluator.cpp
-
-             son_evaluator.cpp
-             son_object.cpp
-
-             son_wallet_evaluator.cpp
-             son_wallet_deposit_evaluator.cpp
-             son_wallet_withdraw_evaluator.cpp
-
-             sidechain_address_evaluator.cpp
-             sidechain_transaction_evaluator.cpp
-
+             ${CPP_FILES}
              ${HEADERS}
              "${CMAKE_CURRENT_BINARY_DIR}/include/graphene/chain/hardfork.hpp"
            )

@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 #pragma once
+#include <graphene/chain/types.hpp>
+
 #include <graphene/protocol/operations.hpp>
 
 namespace graphene {

@@ -26,9 +26,11 @@
 
 #include <graphene/protocol/chain_parameters.hpp>
 #include <graphene/protocol/son_info.hpp>
+
 #include <graphene/chain/types.hpp>
-#include <graphene/db/object.hpp>
 #include <graphene/chain/hardfork.hpp>
+
+#include <graphene/db/object.hpp>
 
 namespace graphene { namespace chain {
 

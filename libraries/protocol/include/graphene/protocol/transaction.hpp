@@ -239,7 +239,6 @@ FC_REFLECT_DERIVED( graphene::protocol::signed_transaction, (graphene::protocol:
 FC_REFLECT_DERIVED( graphene::protocol::processed_transaction, (graphene::protocol::signed_transaction),
                     (operation_results) )
 
-
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::transaction)
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::signed_transaction)
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::processed_transaction)

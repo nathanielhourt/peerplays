@@ -17,6 +17,8 @@
 #include <graphene/protocol/son_info.hpp>
 #include <graphene/chain/account_object.hpp>
 #include <graphene/chain/son_wallet_object.hpp>
+#include <graphene/protocol/son_wallet.hpp>
+#include <graphene/protocol/son_info.hpp>
 #include <graphene/utilities/key_conversion.hpp>
 
 namespace graphene { namespace peerplays_sidechain {

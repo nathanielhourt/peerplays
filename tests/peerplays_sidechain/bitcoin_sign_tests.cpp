@@ -193,7 +193,8 @@ BOOST_AUTO_TEST_CASE(weighted_multisig_spend_test) {
    int32_t hash_type = 1; // implement SIGHASH_ALL scheme
 
    for (auto &key : priv_keys) {
-      bytes key_data(key.get_secret().data(), key.get_secret().data() + key.get_secret().data_size());
+      auto secret = key.get_secret();
+      bytes key_data(secret.data(), secret.data() + secret.data_size());
       std::vector<bytes> sigs = sign_witness_transaction_part(tx, {redeem_script}, {amount}, key_data, btc_context(), hash_type);
       // insert signatures in reverse order
       tx.vin[0].scriptWitness.insert(tx.vin[0].scriptWitness.begin(), sigs[0]);
@@ -335,7 +336,8 @@ BOOST_AUTO_TEST_CASE(user_sig_one_or_weighted_multisig_spend_test) {
       uint64_t amount = 10000;
       int32_t hash_type = 1; // implement SIGHASH_ALL scheme
 
-      bytes key_data(user_key.get_secret().data(), user_key.get_secret().data() + user_key.get_secret().data_size());
+      auto secret = user_key.get_secret();
+      bytes key_data(secret.data(), secret.data() + secret.data_size());
       std::vector<bytes> sigs = sign_witness_transaction_part(tx, {redeem_script}, {amount}, key_data, btc_context(), hash_type);
       tx.vin[0].scriptWitness.push_back(sigs[0]);
       sign_witness_transaction_finalize(tx, {redeem_script}, false);
@@ -369,7 +371,8 @@ BOOST_AUTO_TEST_CASE(user_sig_one_or_weighted_multisig_spend_test) {
       int32_t hash_type = 1; // implement SIGHASH_ALL scheme
 
       for (auto &key : priv_keys) {
-         bytes key_data(key.get_secret().data(), key.get_secret().data() + key.get_secret().data_size());
+         auto secret = key.get_secret();
+         bytes key_data(secret.data(), secret.data() + secret.data_size());
          std::vector<bytes> sigs = sign_witness_transaction_part(tx, {redeem_script}, {amount}, key_data, btc_context(), hash_type);
          // insert signatures in reverse order
          tx.vin[0].scriptWitness.insert(tx.vin[0].scriptWitness.begin(), sigs[0]);
@@ -435,7 +438,8 @@ BOOST_AUTO_TEST_CASE(user_sig_timelocked_one_or_weighted_multisig_spend_test) {
       uint64_t amount = 10000;
       int32_t hash_type = 1; // implement SIGHASH_ALL scheme
 
-      bytes key_data(user_key.get_secret().data(), user_key.get_secret().data() + user_key.get_secret().data_size());
+      auto secret = user_key.get_secret();
+      bytes key_data(secret.data(), secret.data() + secret.data_size());
       std::vector<bytes> sigs = sign_witness_transaction_part(tx, {redeem_script}, {amount}, key_data, btc_context(), hash_type);
       tx.vin[0].scriptWitness.push_back(sigs[0]);
       sign_witness_transaction_finalize(tx, {redeem_script}, false);

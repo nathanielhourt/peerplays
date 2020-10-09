@@ -65,3 +65,4 @@ FC_IMPLEMENT_DERIVED_EXCEPTION( invalid_committee_approval, transaction_exceptio
 FC_IMPLEMENT_DERIVED_EXCEPTION( insufficient_fee,           transaction_exception, 4010007, "insufficient fee" )
 
 } } // graphene::protocol
+

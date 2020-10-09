@@ -1615,6 +1615,7 @@ void database_fixture::resolve_betting_market_group(betting_market_group_id_type
    betting_market_group_resolve_operation betting_market_group_resolve_op;
    betting_market_group_resolve_op.betting_market_group_id = betting_market_group_id;
    betting_market_group_resolve_op.resolutions = resolutions;
+   wdump((resolutions)(betting_market_group_resolve_op));
    process_operation_by_witnesses(betting_market_group_resolve_op);
 } FC_CAPTURE_AND_RETHROW( (betting_market_group_id)(resolutions) ) }
 

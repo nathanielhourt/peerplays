@@ -29,8 +29,6 @@
 
 #define MAX_NESTING (200)
 
-#define MAX_NESTING (200)
-
 namespace graphene { namespace db {
 
    /**

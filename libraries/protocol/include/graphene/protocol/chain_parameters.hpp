@@ -22,11 +22,9 @@
  * THE SOFTWARE.
  */
 #pragma once
-#include <memory>
-#include <graphene/protocol/base.hpp>
+
 #include <graphene/protocol/config.hpp>
-#include <graphene/protocol/ext.hpp>
-#include <graphene/protocol/types.hpp>
+#include <graphene/protocol/base.hpp>
 
 #include <memory>
 
@@ -76,7 +74,7 @@ namespace graphene { namespace protocol {
       chain_parameters(chain_parameters&& other);
       chain_parameters& operator=(const chain_parameters& other);
       chain_parameters& operator=(chain_parameters&& other);
-      /** using a smart ref breaks the circular dependency created between operations and the fee schedule */
+      /** using a shared_ptr breaks the circular dependency created between operations and the fee schedule */
       std::shared_ptr<fee_schedule> current_fees;                       ///< current schedule of fees
       uint8_t                 block_interval                      = GRAPHENE_DEFAULT_BLOCK_INTERVAL; ///< interval in seconds between blocks
       uint32_t                maintenance_interval                = GRAPHENE_DEFAULT_MAINTENANCE_INTERVAL; ///< interval in sections between blockchain maintenance events
