@@ -47,9 +47,11 @@ struct budget_record
    // sinks of budget, should sum up to total_budget
    share_type witness_budget = 0;
    share_type worker_budget = 0;
+   share_type son_budget = 0;
 
    // unused budget
    share_type leftover_worker_funds = 0;
+   share_type leftover_son_funds = 0;
 
    // change in supply due to budget operations
    share_type supply_delta = 0;
@@ -78,7 +80,9 @@ FC_REFLECT(graphene::chain::budget_record,
    (total_budget)
    (witness_budget)
    (worker_budget)
+   (son_budget)
    (leftover_worker_funds)
+   (leftover_son_funds)
    (supply_delta)
 )
 

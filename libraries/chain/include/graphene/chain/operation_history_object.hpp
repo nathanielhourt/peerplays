@@ -100,7 +100,7 @@ class account_transaction_history_object :  public abstract_object<account_trans
       uint32_t                             sequence = 0; /// the operation position within the given account
       account_transaction_history_id_type  next;
 };
-
+   
 struct by_seq;
 struct by_op;
 struct by_opid;

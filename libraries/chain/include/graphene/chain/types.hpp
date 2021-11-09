@@ -52,4 +52,6 @@ GRAPHENE_DEFINE_IDS(chain, implementation_ids, impl_,
                     (global_betting_statistics)
                     (lottery_balance)
                     (sweeps_vesting_balance)
-                    (offer_history))
+                    (offer_history)
+                    (son_statistics)
+                    (son_schedule))

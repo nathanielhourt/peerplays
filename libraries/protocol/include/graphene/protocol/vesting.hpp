@@ -28,12 +28,14 @@
 
 namespace graphene { namespace protocol { 
 
-   enum class vesting_balance_type { normal, gpos };
+   enum class vesting_balance_type { normal, gpos, son };
 
    inline std::string get_vesting_balance_type(vesting_balance_type type) {
       switch (type) {
          case vesting_balance_type::normal:
             return "NORMAL";
+         case vesting_balance_type::son:
+            return "SON";
          case vesting_balance_type::gpos:
          default:
             return "GPOS";
@@ -56,9 +58,10 @@ namespace graphene { namespace protocol {
       cdd_vesting_policy_initializer( uint32_t vest_sec = 0, fc::time_point_sec sc = fc::time_point_sec() ):start_claim(sc),vesting_seconds(vest_sec){}
    };
 
-   typedef fc::static_variant<linear_vesting_policy_initializer, cdd_vesting_policy_initializer> vesting_policy_initializer;
+   struct dormant_vesting_policy_initializer {};
 
-
+   typedef fc::static_variant<linear_vesting_policy_initializer, cdd_vesting_policy_initializer,
+         dormant_vesting_policy_initializer> vesting_policy_initializer;
 
    /**
     * @brief Create a vesting balance.
@@ -127,16 +130,18 @@ namespace graphene { namespace protocol {
 FC_REFLECT( graphene::protocol::vesting_balance_create_operation::fee_parameters_type, (fee) )
 FC_REFLECT( graphene::protocol::vesting_balance_withdraw_operation::fee_parameters_type, (fee) )
 
-FC_REFLECT( graphene::protocol::vesting_balance_create_operation, (fee)(creator)(owner)(amount)(policy) )
+FC_REFLECT( graphene::protocol::vesting_balance_create_operation, (fee)(creator)(owner)(amount)(policy)(balance_type) )
 FC_REFLECT( graphene::protocol::vesting_balance_withdraw_operation, (fee)(vesting_balance)(owner)(amount) )
 
 FC_REFLECT(graphene::protocol::linear_vesting_policy_initializer, (begin_timestamp)(vesting_cliff_seconds)(vesting_duration_seconds) )
 FC_REFLECT(graphene::protocol::cdd_vesting_policy_initializer, (start_claim)(vesting_seconds) )
+FC_REFLECT_EMPTY( graphene::protocol::dormant_vesting_policy_initializer )
 FC_REFLECT_TYPENAME( graphene::protocol::vesting_policy_initializer )
 
-FC_REFLECT_ENUM( graphene::protocol::vesting_balance_type, (normal)(gpos) )
+FC_REFLECT_ENUM( graphene::protocol::vesting_balance_type, (normal)(gpos)(son) )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::vesting_balance_create_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::vesting_balance_withdraw_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::vesting_balance_create_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::vesting_balance_withdraw_operation )
+

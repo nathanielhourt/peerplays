@@ -176,3 +176,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::limit_order_create_
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::limit_order_cancel_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::call_order_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::fill_order_operation )
+

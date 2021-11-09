@@ -187,3 +187,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::proposal_delete_ope
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::proposal_create_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::proposal_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::proposal_delete_operation )
+

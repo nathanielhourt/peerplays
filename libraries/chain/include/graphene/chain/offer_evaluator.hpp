@@ -3,6 +3,7 @@
 
 #include <graphene/protocol/operations.hpp>
 
+
 namespace graphene
 {
    namespace chain

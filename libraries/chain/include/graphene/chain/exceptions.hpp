@@ -113,20 +113,20 @@
 namespace graphene { namespace chain {
 
    FC_DECLARE_EXCEPTION( chain_exception, 3000000 )
+   FC_DECLARE_DERIVED_EXCEPTION( database_query_exception,          chain_exception, 3010000 )
+   FC_DECLARE_DERIVED_EXCEPTION( block_validate_exception,          chain_exception, 3020000 )
+   FC_DECLARE_DERIVED_EXCEPTION( transaction_exception,             chain_exception, 3030000 )
+   FC_DECLARE_DERIVED_EXCEPTION( operation_validate_exception,      chain_exception, 3040000 )
+   FC_DECLARE_DERIVED_EXCEPTION( operation_evaluate_exception,      chain_exception, 3050000 )
+   FC_DECLARE_DERIVED_EXCEPTION( utility_exception,                 chain_exception, 3060000 )
+   FC_DECLARE_DERIVED_EXCEPTION( undo_database_exception,           chain_exception, 3070000 )
+   FC_DECLARE_DERIVED_EXCEPTION( unlinkable_block_exception,        chain_exception, 3080000 )
+   FC_DECLARE_DERIVED_EXCEPTION( black_swan_exception,              chain_exception, 3090000 )
+   FC_DECLARE_DERIVED_EXCEPTION( plugin_exception,                  chain_exception, 3100000 )
 
-   FC_DECLARE_DERIVED_EXCEPTION( database_query_exception,     chain_exception, 3010000 )
-   FC_DECLARE_DERIVED_EXCEPTION( block_validate_exception,     chain_exception, 3020000 )
-   FC_DECLARE_DERIVED_EXCEPTION( operation_validate_exception, chain_exception, 3040000 )
-   FC_DECLARE_DERIVED_EXCEPTION( operation_evaluate_exception, chain_exception, 3050000 )
-   FC_DECLARE_DERIVED_EXCEPTION( utility_exception,            chain_exception, 3060000 )
-   FC_DECLARE_DERIVED_EXCEPTION( undo_database_exception,      chain_exception, 3070000 )
-   FC_DECLARE_DERIVED_EXCEPTION( unlinkable_block_exception,   chain_exception, 3080000 )
-   FC_DECLARE_DERIVED_EXCEPTION( black_swan_exception,         chain_exception, 3090000 )
-   FC_DECLARE_DERIVED_EXCEPTION( plugin_exception,             chain_exception, 3100000 )
+   FC_DECLARE_DERIVED_EXCEPTION( insufficient_feeds,                chain_exception, 37006 )
 
-   FC_DECLARE_DERIVED_EXCEPTION( insufficient_feeds,           chain_exception, 37006 )
-
-   FC_DECLARE_DERIVED_EXCEPTION( pop_empty_chain,              undo_database_exception, 3070001 )
+   FC_DECLARE_DERIVED_EXCEPTION( pop_empty_chain,                   undo_database_exception, 3070001 )
 
    GRAPHENE_DECLARE_OP_BASE_EXCEPTIONS( transfer );
    GRAPHENE_DECLARE_OP_EVALUATE_EXCEPTION( from_account_not_whitelisted, transfer, 1, "owner mismatch" )

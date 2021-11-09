@@ -23,8 +23,8 @@
  */
 #pragma once
 
-#define GRAPHENE_SYMBOL "TEST"
-#define GRAPHENE_ADDRESS_PREFIX "TEST"
+#define GRAPHENE_SYMBOL "PPY"
+#define GRAPHENE_ADDRESS_PREFIX "PPY"
 
 #define GRAPHENE_MIN_ACCOUNT_NAME_LENGTH 1
 #define GRAPHENE_MAX_ACCOUNT_NAME_LENGTH 63
@@ -236,3 +236,17 @@
 #define NFT_TOKEN_MIN_LENGTH                                3
 #define NFT_TOKEN_MAX_LENGTH                                15
 #define NFT_URI_MAX_LENGTH                                  GRAPHENE_MAX_URL_LENGTH
+
+#define GRAPHENE_DEFAULT_MAX_SONS                           (15)
+#define SON_VESTING_AMOUNT                                  (50*GRAPHENE_BLOCKCHAIN_PRECISION) // 50 PPY
+#define SON_VESTING_PERIOD                                  (60*60*24*2) // 2 days
+#define SON_DEREGISTER_TIME                                 (60*60*12) // 12 Hours in seconds
+#define SON_HEARTBEAT_FREQUENCY                             (60*3) // 3 minutes in seconds
+#define SON_DOWN_TIME                                       (60*3*2) // 2 Heartbeats in seconds
+#define SON_BITCOIN_MIN_TX_CONFIRMATIONS                    (1)
+#define SON_PAY_TIME                                        (60*60*24) // 1 day
+#define SON_PAY_MAX                                         (GRAPHENE_BLOCKCHAIN_PRECISION * int64_t(200))
+
+#define ACCOUNT_ROLES_MAX_PER_ACCOUNT                       20 // Max 20 roles can be created by a resource owner
+#define ACCOUNT_ROLES_MAX_LIFETIME                          365*24*60*60 // 1 Year
+

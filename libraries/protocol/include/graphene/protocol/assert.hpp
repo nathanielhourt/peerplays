@@ -116,3 +116,4 @@ FC_REFLECT( graphene::protocol::assert_operation, (fee)(fee_paying_account)(pred
  
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::assert_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::assert_operation )
+

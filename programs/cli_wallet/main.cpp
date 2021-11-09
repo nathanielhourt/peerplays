@@ -72,6 +72,7 @@ int main( int argc, char** argv )
       boost::program_options::options_description opts;
          opts.add_options()
          ("help,h", "Print this help message and exit.")
+         ("version", "Display the version info and exit")
          ("server-rpc-endpoint,s", bpo::value<string>()->implicit_value("ws://127.0.0.1:8090"), "Server websocket RPC endpoint")
          ("server-rpc-user,u", bpo::value<string>(), "Server Username")
          ("server-rpc-password,p", bpo::value<string>(), "Server Password")
@@ -91,6 +92,20 @@ int main( int argc, char** argv )
       if( options.count("help") )
       {
          std::cout << opts << "\n";
+         return 0;
+      }
+
+      if (options.count("version"))
+      {
+         std::string wallet_version(graphene::utilities::git_revision_description);
+         const size_t pos = wallet_version.find('/');
+         if( pos != std::string::npos && wallet_version.size() > pos )
+            wallet_version = wallet_version.substr( pos + 1 );
+         std::cerr << "Version: " << wallet_version << "\n";
+         std::cerr << "Git Revision: " << graphene::utilities::git_revision_sha << "\n";
+         std::cerr << "Built: " << __DATE__ " at " __TIME__ << "\n";
+         std::cout << "SSL: " << OPENSSL_VERSION_TEXT << "\n";
+         std::cout << "Boost: " << boost::replace_all_copy(std::string(BOOST_LIB_VERSION), "_", ".") << "\n";
          return 0;
       }
 
@@ -207,9 +222,10 @@ int main( int argc, char** argv )
          wallet_cli->set_prompt(  locked ? "locked >>> " : "unlocked >>> " );
       }));
 
-      auto _websocket_server = std::make_shared<fc::http::websocket_server>();
+      std::shared_ptr<fc::http::websocket_server> _websocket_server;
       if( options.count("rpc-endpoint") )
       {
+         _websocket_server = std::make_shared<fc::http::websocket_server>();
          _websocket_server->on_connection([&wapi]( const fc::http::websocket_connection_ptr& c ){
             std::cout << "here... \n";
             wlog("." );
@@ -226,9 +242,10 @@ int main( int argc, char** argv )
       if( options.count( "rpc-tls-certificate" ) )
          cert_pem = options.at("rpc-tls-certificate").as<string>();
 
-      auto _websocket_tls_server = std::make_shared<fc::http::websocket_tls_server>(cert_pem, "");
+      std::shared_ptr<fc::http::websocket_tls_server> _websocket_tls_server;
       if( options.count("rpc-tls-endpoint") )
       {
+         _websocket_tls_server = std::make_shared<fc::http::websocket_tls_server>(cert_pem, "");
          _websocket_tls_server->on_connection([&]( const fc::http::websocket_connection_ptr& c ){
             auto wsc = std::make_shared<fc::rpc::websocket_api_connection>(c, GRAPHENE_MAX_NESTED_OBJECTS);
             wsc->register_api(wapi);

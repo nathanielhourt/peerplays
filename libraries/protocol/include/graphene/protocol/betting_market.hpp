@@ -491,3 +491,4 @@ FC_REFLECT( graphene::protocol::bet_canceled_operation, (fee)(bettor_id)(bet_id)
 
 FC_REFLECT( graphene::protocol::bet_adjusted_operation::fee_parameters_type, )
 FC_REFLECT( graphene::protocol::bet_adjusted_operation, (fee) (bettor_id)(bet_id)(stake_returned) )
+

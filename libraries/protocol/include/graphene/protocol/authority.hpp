@@ -136,3 +136,4 @@ FC_REFLECT( graphene::protocol::authority, (weight_threshold)(account_auths)(key
 FC_REFLECT_ENUM( graphene::protocol::authority::classification, (owner)(active)(key) )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::authority )
+

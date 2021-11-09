@@ -96,3 +96,4 @@ memo_message memo_message::deserialize(const string& serial)
 
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::memo_message )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::memo_data )
+

@@ -28,9 +28,6 @@
 #include <fc/io/datastream.hpp>
 #include <fc/io/raw_fwd.hpp>
 #include <string>
-
-#include <fc/io/datastream.hpp>
-#include <fc/io/raw_fwd.hpp>
 #include <fc/variant.hpp>
 
 namespace fc { namespace ecc { class public_key; } }
@@ -89,6 +86,6 @@ namespace raw {
    extern template void pack( datastream<char*>& s, const graphene::protocol::pts_address& tx,
                               uint32_t _max_depth=FC_PACK_MAX_DEPTH );
    extern template void unpack( datastream<const char*>& s, graphene::protocol::pts_address& tx,
-                                uint32_t _max_depth=FC_PACK_MAX_DEPTH );
+                              uint32_t _max_depth=FC_PACK_MAX_DEPTH );
 } } // fc::raw
 

@@ -74,3 +74,4 @@ FC_REFLECT_DERIVED( graphene::protocol::signed_block, (graphene::protocol::signe
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::block_header)
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::signed_block_header)
 GRAPHENE_EXTERNAL_SERIALIZATION(extern, graphene::protocol::signed_block)
+

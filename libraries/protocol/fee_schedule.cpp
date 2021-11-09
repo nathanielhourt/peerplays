@@ -198,3 +198,4 @@ namespace graphene { namespace protocol {
 } } // graphene::protocol
 
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::fee_schedule )
+

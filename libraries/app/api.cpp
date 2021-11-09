@@ -142,7 +142,7 @@ namespace graphene { namespace app {
 
     vector<optional<signed_block>> block_api::get_blocks(uint32_t block_num_from, uint32_t block_num_to)const
     {
-       FC_ASSERT( block_num_to >= block_num_from );
+       FC_ASSERT( block_num_to >= block_num_from && block_num_to - block_num_from <= 100, "Total blocks to be returned should be less than 100");
        vector<optional<signed_block>> res;
        for(uint32_t block_num=block_num_from; block_num<=block_num_to; block_num++) {
           res.push_back(_db.fetch_block_by_number(block_num));
@@ -182,7 +182,7 @@ namespace graphene { namespace app {
     void network_broadcast_api::broadcast_transaction(const signed_transaction& trx)
     {
        trx.validate();
-       _app.chain_database()->check_tansaction_for_duplicated_operations(trx);
+       _app.chain_database()->check_transaction_for_duplicated_operations(trx);
        _app.chain_database()->push_transaction(trx);
        if( _app.p2p_node() != nullptr )
           _app.p2p_node()->broadcast_transaction(trx);
@@ -190,7 +190,7 @@ namespace graphene { namespace app {
 
     fc::variant network_broadcast_api::broadcast_transaction_synchronous(const signed_transaction& trx)
     {
-       _app.chain_database()->check_tansaction_for_duplicated_operations(trx);
+       _app.chain_database()->check_transaction_for_duplicated_operations(trx);
         
        fc::promise<fc::variant>::ptr prom = fc::promise<fc::variant>::create();
        broadcast_transaction_with_callback( [prom]( const fc::variant& v ){
@@ -448,7 +448,17 @@ namespace graphene { namespace app {
             } case balance_object_type:{
                /** these are free from any accounts */
                break;
-            } 
+            } case son_object_type:{
+               const auto& aobj = dynamic_cast<const son_object*>(obj);
+               assert( aobj != nullptr );
+               accounts.insert( aobj->son_account );
+               break;
+            } case sidechain_address_object_type:{
+               const auto& aobj = dynamic_cast<const sidechain_address_object*>(obj);
+               assert( aobj != nullptr );
+               accounts.insert( aobj->sidechain_address_account );
+               break;
+            }
             case sport_object_type:
             case event_group_object_type:
             case event_object_type:
@@ -495,8 +505,8 @@ namespace graphene { namespace app {
                   assert( aobj != nullptr );
                   result.push_back( aobj->owner );
                   break;
-               } case impl_transaction_object_type:{
-                  const auto& aobj = dynamic_cast<const transaction_object*>(obj);
+               } case impl_transaction_history_object_type:{
+                  const auto& aobj = dynamic_cast<const transaction_history_object*>(obj);
                   assert( aobj != nullptr );
                   flat_set<account_id_type> impacted;
                   transaction_get_impacted_accounts( aobj->trx, impacted );

@@ -29,6 +29,7 @@ namespace protocol { struct signed_transaction; }
 namespace chain {
    class database;
    using protocol::signed_transaction;
+   using protocol::operation_result;
 
    /**
     *  Place holder for state tracked while processing a transaction. This class provides helper methods that are
@@ -42,7 +43,7 @@ namespace chain {
 
 
          database& db()const { assert( _db ); return *_db; }
-         vector<operation_result> operation_results;
+         std::vector<operation_result> operation_results;
 
          const signed_transaction*        _trx = nullptr;
          database*                        _db = nullptr;

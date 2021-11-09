@@ -78,3 +78,4 @@ MAP_OBJECT_ID_TO_TYPE(graphene::chain::transaction_history_object)
 FC_REFLECT_DERIVED( graphene::chain::transaction_history_object, (graphene::db::object), (trx)(trx_id) )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::chain::transaction_history_object )
+

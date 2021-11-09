@@ -70,3 +70,4 @@ share_type  assert_operation::calculate_fee(const fee_parameters_type& k)const
 
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::assert_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::assert_operation )
+

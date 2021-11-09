@@ -112,3 +112,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::committee_member_up
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::committee_member_create_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::committee_member_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::committee_member_update_global_parameters_operation )
+

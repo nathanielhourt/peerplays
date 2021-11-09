@@ -790,3 +790,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::asset_update_feed_p
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::asset_publish_feed_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::asset_issue_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::asset_reserve_operation )
+

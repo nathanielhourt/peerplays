@@ -49,3 +49,4 @@ FC_REFLECT( graphene::protocol::top_holders_special_authority, (asset)(num_top_h
 FC_REFLECT_TYPENAME( graphene::protocol::special_authority )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::top_holders_special_authority )
+

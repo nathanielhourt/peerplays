@@ -48,6 +48,13 @@
 #include <graphene/chain/custom_account_authority_object.hpp>
 #include <graphene/chain/offer_object.hpp>
 #include <graphene/chain/nft_object.hpp>
+#include <graphene/chain/account_role_object.hpp>
+#include <graphene/chain/son_object.hpp>
+#include <graphene/chain/son_wallet_object.hpp>
+#include <graphene/chain/son_wallet_deposit_object.hpp>
+#include <graphene/chain/son_wallet_withdraw_object.hpp>
+#include <graphene/chain/sidechain_address_object.hpp>
+#include <graphene/chain/sidechain_transaction_object.hpp>
 
 #include <iostream>
 

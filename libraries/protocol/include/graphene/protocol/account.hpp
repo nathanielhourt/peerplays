@@ -53,6 +53,9 @@ namespace graphene { namespace protocol {
       /// The number of active committee members this account votes the blockchain should appoint
       /// Must not exceed the actual number of committee members voted for in @ref votes
       uint16_t num_committee = 0;
+      /// The number of active son members this account votes the blockchain should appoint
+      /// Must not exceed the actual number of son members voted for in @ref votes
+      uint16_t num_son = 0;
       /// This is the list of vote IDs this account votes for. The weight of these votes is determined by this
       /// account's balance of core asset.
       flat_set<vote_id_type> votes;
@@ -303,7 +306,7 @@ FC_REFLECT( graphene::protocol::account_create_operation,
             (name)(owner)(active)(options)(extensions)
           )
 
-FC_REFLECT(graphene::protocol::account_update_operation::ext, (null_ext)(owner_special_authority)(active_special_authority) )
+FC_REFLECT(graphene::protocol::account_update_operation::ext, (null_ext)(owner_special_authority)(active_special_authority)(update_last_voting_time) )
 FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::protocol::account_update_operation::ext>)
 FC_REFLECT( graphene::protocol::account_update_operation,
             (fee)(account)(owner)(active)(new_options)(extensions)
@@ -332,3 +335,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::account_whitelist_o
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::account_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::account_upgrade_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::account_transfer_operation )
+

@@ -40,3 +40,4 @@ void from_variant( const variant& var, graphene::protocol::vote_id_type& vo, uin
 } // fc
 
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::vote_id_type )
+

@@ -27,6 +27,7 @@
 
 #include <fc/io/raw.hpp>
 
+
 namespace graphene { namespace chain {
 
 struct special_authority_evaluate_visitor

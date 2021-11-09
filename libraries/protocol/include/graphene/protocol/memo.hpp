@@ -92,3 +92,4 @@ FC_REFLECT( graphene::protocol::memo_data, (from)(to)(nonce)(message) )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::memo_message )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::memo_data )
+

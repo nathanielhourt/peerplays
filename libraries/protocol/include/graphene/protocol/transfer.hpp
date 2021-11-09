@@ -111,3 +111,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::transfer_operation:
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::override_transfer_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::transfer_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::override_transfer_operation )
+

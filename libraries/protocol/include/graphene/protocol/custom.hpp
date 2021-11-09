@@ -51,6 +51,9 @@ namespace graphene { namespace protocol {
       account_id_type   fee_payer()const { return payer; }
       void              validate()const;
       share_type        calculate_fee(const fee_parameters_type& k)const;
+      void              get_required_active_authorities( flat_set<account_id_type>& auths )const {
+         auths.insert( required_auths.begin(), required_auths.end() );
+      }
    };
 
 } } // namespace graphene::protocol
@@ -60,3 +63,4 @@ FC_REFLECT( graphene::protocol::custom_operation, (fee)(payer)(required_auths)(i
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::custom_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::custom_operation )
+

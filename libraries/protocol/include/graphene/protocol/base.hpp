@@ -33,9 +33,6 @@ namespace graphene { namespace protocol {
    struct asset;
    struct authority;
 
-   struct asset;
-   struct authority;
-
    /**
     *  @defgroup operations Operations
     *  @ingroup transactions Transactions

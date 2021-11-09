@@ -55,3 +55,4 @@ MAP_OBJECT_ID_TO_TYPE(graphene::chain::custom_account_authority_object)
 
 FC_REFLECT_DERIVED( graphene::chain::custom_account_authority_object, (graphene::db::object),
                     (permission_id)(operation_type)(valid_from)(valid_to) )
+

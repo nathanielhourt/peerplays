@@ -7,9 +7,10 @@ This is a quick introduction to get new developers and witnesses up to speed on 
  The following dependencies were necessary for a clean install of Ubuntu 18.04 LTS:
 
  ```
- sudo apt-get install gcc-5 g++-5 cmake make libbz2-dev\
-     libdb++-dev libdb-dev libssl-dev openssl libreadline-dev\
-      autoconf libtool git
+ sudo apt-get install autoconf bash build-essential ca-certificates cmake \
+      doxygen git graphviz libbz2-dev libcurl4-openssl-dev libncurses-dev \
+      libreadline-dev libssl-dev libtool libzmq3-dev locales ntp pkg-config \
+      wget
 ```
 ## Build Boost 1.67.0
 
@@ -87,14 +88,14 @@ then proceed with:
     cmake -DBOOST_ROOT="$BOOST_ROOT" -DCMAKE_BUILD_TYPE=Release .
     make
     ./programs/witness_node/witness_node
-    
+
 Launching the witness creates required directories. Next, **stop the witness** and continue.
 
     $ vi witness_node_data_dir/config.ini
     p2p-endpoint = 0.0.0.0:9777
     rpc-endpoint = 127.0.0.1:8090
     seed-node = 213.184.225.234:59500
-    
+
 Start the witness back up
 
     ./programs/witness_node/witness_node
@@ -154,7 +155,7 @@ Create your witness (substitute the url for your witness information)
 ```
 create_witness your_witness_username "url" true
 ```
-**Be sure to take note of the block_signing_key** 
+**Be sure to take note of the block_signing_key**
 
 IMPORTANT (issue below command using block_signing_key just obtained)
 ```

@@ -72,6 +72,5 @@ FC_REFLECT( graphene::app::full_account,
             (proposals)
             (assets)
             (withdraws)
-            (proposals) 
             (pending_dividend_payments)
           )

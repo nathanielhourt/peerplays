@@ -79,3 +79,4 @@ namespace fc
 FC_REFLECT( graphene::protocol::address, (addr) )
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::address )
+

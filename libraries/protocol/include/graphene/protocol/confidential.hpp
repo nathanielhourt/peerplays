@@ -290,3 +290,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::blind_transfer_oper
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::transfer_to_blind_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::transfer_from_blind_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::blind_transfer_operation )
+

@@ -107,3 +107,4 @@ FC_REFLECT( graphene::protocol::worker_create_operation,
 
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::worker_create_operation::fee_parameters_type )
 GRAPHENE_EXTERNAL_SERIALIZATION( extern, graphene::protocol::worker_create_operation )
+

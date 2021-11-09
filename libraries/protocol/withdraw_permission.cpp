@@ -77,3 +77,4 @@ GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::withdraw_pe
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::withdraw_permission_update_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::withdraw_permission_claim_operation )
 GRAPHENE_EXTERNAL_SERIALIZATION( /*not extern*/, graphene::protocol::withdraw_permission_delete_operation )
+
