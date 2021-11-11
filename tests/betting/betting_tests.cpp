@@ -2865,8 +2865,14 @@ struct GlobalInitializationFixture {
         std::srand(time(NULL));
         std::cout << "Random number generator seeded to " << time(NULL) << std::endl;
 
+        // The genesis timestamp (GRAPHENE_TESTING_GENESIS_TIMESTAMP),
+        // which is verified by database::init_genesis(),
+        // should maintain compatibility with the periodicity
+        // expected from the GRAPHENE_DEFAULT_BLOCK_INTERVAL.
+        //
         // betting operations don't take effect until HARDFORK 1000
-        GRAPHENE_TESTING_GENESIS_TIMESTAMP = HARDFORK_1000_TIME.sec_since_epoch() + 2;
+        GRAPHENE_TESTING_GENESIS_TIMESTAMP =
+               (HARDFORK_1000_TIME.sec_since_epoch() + 15) / GRAPHENE_DEFAULT_BLOCK_INTERVAL * GRAPHENE_DEFAULT_BLOCK_INTERVAL;
     }
 };
 BOOST_TEST_GLOBAL_FIXTURE(GlobalInitializationFixture);
