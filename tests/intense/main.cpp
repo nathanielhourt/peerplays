@@ -27,6 +27,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <cstdlib>
+#include <iostream>
 
 struct GlobalInitializationFixture {
     GlobalInitializationFixture() {
