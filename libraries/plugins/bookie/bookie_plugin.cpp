@@ -54,10 +54,42 @@ namespace detail
 /* As a plugin, we get notified of new/changed objects at the end of every block processed.
  * For most objects, that's fine, because we expect them to always be around until the end of
  * the block.  However, with bet objects, it's possible that the user places a bet and it fills
- * and is removed during the same block, so need another strategy to detect them immediately after
- * they are created. 
+ * and is removed during the same block, so need another strategy to detect these "ephemeral"
+ * node objects immediately after they are created.
  * We do this by creating a secondary index on bet_object.  We don't actually use it
  * to index any property of the bet, we just use it to register for callbacks.
+ *
+ * One objective of the plugin's helper is to watch for database objects known by the the node
+ * (node objects) in order for the plugin to populate and persist a copy (plugin objects)
+ * within its own primary index.
+ *
+ * The life cycle of a naive helper object is:
+ *
+ * 1. During `plugin_initialize()`
+ *    The helper registers with the database for future notifications (Step 2) of the creation of
+ *    a watched object
+ *    (`database().add_secondary_index<...>()`).
+ *    The helper also delegates the future persistence (Step 3) of its own primary index
+ *    to the database by registering it.
+ *    (`database().add_index<primary_index<...>>()`).
+ *    This primary index will be used to index plugin objects that are copies of node objects
+ *    observed during Step 2.
+ * 2. During a node session: the helper is notified by the database about the watched node objects
+ *    that are created during the node session through its `object_created()` callback.
+ *    During that callback, the helper will create its own copy (plugin object) of the of node
+ *    objectand inject it into its own primary index.
+ * 3. When the node session shuts down, the database will persist the helper's primary index
+ *    that was registered during Step 1.
+ * 4. When the node is restarted, the database will automatically load the previous session(s)'s
+ *    node objectsinto the helper's primary index.
+ *
+ * The helper can ignore the `object_loaded()` events that are triggered when the watched node
+ * objects are loaded from persistence by the database because those objects were already processed
+ * by the the helper's `object_created()` during the prior sessions.
+ *
+ * NOTE: The helper should register itself for notifications of new node objects
+ *       during `plugin_initialize()` rather than `plugin_startup()`
+ *       for compatibility with a blockchain replay.
  */
 class persistent_bet_object_helper : public secondary_index
 {
@@ -489,18 +521,19 @@ void bookie_plugin::plugin_initialize(const boost::program_options::variables_ma
     database().add_index<primary_index<detail::persistent_betting_market_group_index> >();
     database().add_index<primary_index<detail::persistent_betting_market_index> >();
     database().add_index<primary_index<detail::persistent_bet_index> >();
+
+    // Register secondary indexes
+    database().add_secondary_index<detail::persistent_bet_object_helper>()->set_plugin_instance(this);
+    database().add_secondary_index<detail::persistent_betting_market_object_helper>()->set_plugin_instance(this);
+    database().add_secondary_index<detail::persistent_betting_market_group_object_helper>()->set_plugin_instance(this);
+    database().add_secondary_index<detail::persistent_event_object_helper>()->set_plugin_instance(this);
+
     ilog("bookie plugin: plugin_initialize() end");
  }
 
 void bookie_plugin::plugin_startup()
 {
-   ilog("bookie plugin: plugin_startup()");
-
-   // Register secondary indexes
-   database().add_secondary_index<detail::persistent_bet_object_helper>()->set_plugin_instance(this);
-   database().add_secondary_index<detail::persistent_betting_market_object_helper>()->set_plugin_instance(this);
-   database().add_secondary_index<detail::persistent_betting_market_group_object_helper>()->set_plugin_instance(this);
-   database().add_secondary_index<detail::persistent_event_object_helper>()->set_plugin_instance(this);
+    ilog("bookie plugin: plugin_startup()");
 
     my->fill_localized_event_strings();
 }
