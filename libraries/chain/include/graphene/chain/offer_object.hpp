@@ -60,7 +60,8 @@ namespace graphene
         class offer_item_index : public secondary_index
         {
         public:
-            virtual void object_inserted(const object &obj) override;
+            virtual void object_loaded(const object &obj) override;
+            virtual void object_created(const object &obj) override;
             virtual void object_removed(const object &obj) override;
             virtual void about_to_modify(const object &before) override{};
             virtual void object_modified(const object &after) override;
