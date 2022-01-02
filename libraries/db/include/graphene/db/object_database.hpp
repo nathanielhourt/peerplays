@@ -152,6 +152,27 @@ namespace graphene { namespace db {
          {
             return get_mutable_index_type<PrimaryIndexType>().template add_secondary_index<SecondaryIndexType>();
          }
+         template<typename SecondaryIndexType>
+         SecondaryIndexType* add_secondary_index(const uint8_t space_id, const uint8_t type_id)
+         {
+            auto* base_primary = dynamic_cast<base_primary_index*>(&get_mutable_index(space_id, type_id));
+            FC_ASSERT(base_primary != nullptr,
+                      "Cannot add secondary index: index for space ID ${S} and type ID ${T} does not support secondary indexes.",
+                      ("S", space_id)("T", type_id));
+            return base_primary->template add_secondary_index<SecondaryIndexType>();
+         }
+
+         template<typename PrimaryIndexType>
+         void delete_secondary_index(const secondary_index& secondary) {
+            get_mutable_index_type<PrimaryIndexType>().delete_secondary_index(secondary);
+         }
+         void delete_secondary_index(const uint8_t space_id, const uint8_t type_id, const secondary_index& secondary) {
+            auto* base_primary = dynamic_cast<base_primary_index*>(&get_mutable_index(space_id, type_id));
+            FC_ASSERT(base_primary != nullptr,
+                      "Cannot add secondary index: index for space ID ${S} and type ID ${T} does not support secondary indexes.",
+                      ("S", space_id)("T", type_id));
+            base_primary->delete_secondary_index(secondary);
+         }
 
          void pop_undo();
 
