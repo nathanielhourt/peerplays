@@ -10,15 +10,15 @@ list(APPEND HEADERS "${CMAKE_CURRENT_BINARY_DIR}/include/graphene/chain/hardfork
 
 file(GLOB CPP_FILES "*.cpp")
 
-if( GRAPHENE_DISABLE_UNITY_BUILD )
+#if( GRAPHENE_DISABLE_UNITY_BUILD )
    list(FILTER CPP_FILES EXCLUDE REGEX "[/]database[.]cpp$")
    #message ("--- ${CPP_FILES}")
    message( STATUS "Graphene database unity build disabled" )
-else( GRAPHENE_DISABLE_UNITY_BUILD )
-   set( GRAPHENE_DB_FILES
-        database.cpp )
-   message( STATUS "Graphene database unity build enabled" )
-endif( GRAPHENE_DISABLE_UNITY_BUILD )
+#else( GRAPHENE_DISABLE_UNITY_BUILD )
+#   set( GRAPHENE_DB_FILES
+#        database.cpp )
+#   message( STATUS "Graphene database unity build enabled" )
+#endif( GRAPHENE_DISABLE_UNITY_BUILD )
 
 set( GRAPHENE_CHAIN_FILES
      ${CPP_FILES}
