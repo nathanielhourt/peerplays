@@ -174,6 +174,13 @@ namespace graphene { namespace db {
             base_primary->delete_secondary_index(secondary);
          }
 
+         // Count the number of objects (indexes) in the specified object space.
+         // Assuming there are no gaps in the list of type IDs in the space, this will be one greater than the last type ID.
+         uint8_t count_objects_in_space(const uint8_t space_id) const {
+             FC_ASSERT(space_id < _index.size(), "Cannot count objects in space ${S}: No such object space", ("S", space_id));
+             return std::count_if(_index[space_id].begin(), _index[space_id].end(), [](const auto& ptr) { return bool(ptr); });
+         }
+
          void pop_undo();
 
          fc::path get_data_dir()const { return _data_dir; }
