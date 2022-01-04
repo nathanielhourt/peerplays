@@ -135,13 +135,23 @@ namespace graphene { namespace db {
          virtual void               object_default( object& obj )const = 0;
    };
 
+   /** @class secondary_index
+    *   @brief A secondary index is intended to observe a primary index.
+    *   A secondary index is not automatically persisted when the node shuts own.
+    */
    class secondary_index
    {
       public:
          virtual ~secondary_index(){};
-         virtual void object_inserted( const object& obj ){};
+         // Called when an object from a previous node session is loaded from persistence
+         virtual void object_loaded( const object& obj ){};
+         // Called when an object from the current node session is created
+         virtual void object_created( const object& obj ){};
+         // Called when an object is removed
          virtual void object_removed( const object& obj ){};
+         // Called when an object is about to be modified
          virtual void about_to_modify( const object& before ){};
+         // Called when an object is modified
          virtual void object_modified( const object& after  ){};
    };
 
@@ -226,7 +236,12 @@ namespace graphene { namespace db {
 
          virtual ~direct_index(){}
 
-         virtual void object_inserted( const object& obj )
+         virtual void object_loaded( const object& obj )
+         {
+            object_created(obj);
+         }
+
+         virtual void object_created( const object& obj )
          {
             uint64_t instance = obj.id.instance();
             if( instance == next )
@@ -386,7 +401,7 @@ namespace graphene { namespace db {
          {
             const auto& result = DerivedIndex::insert( fc::raw::unpack<object_type>( data ) );
             for( const auto& item : _sindex )
-               item->object_inserted( result );
+               item->object_loaded( result );
             return result;
          }
 
@@ -395,7 +410,7 @@ namespace graphene { namespace db {
          {
             const auto& result = DerivedIndex::create( constructor );
             for( const auto& item : _sindex )
-               item->object_inserted( result );
+               item->object_created( result );
             on_add( result );
             return result;
          }

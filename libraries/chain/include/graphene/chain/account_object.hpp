@@ -323,7 +323,8 @@ namespace graphene { namespace chain {
       };
 
       public:
-         virtual void object_inserted( const object& obj ) override;
+         virtual void object_loaded( const object& obj ) override;
+         virtual void object_created( const object& obj ) override;
          virtual void object_removed( const object& obj ) override;
          virtual void about_to_modify( const object& before ) override;
          virtual void object_modified( const object& after  ) override;
@@ -354,7 +355,8 @@ namespace graphene { namespace chain {
    class account_referrer_index : public secondary_index
    {
       public:
-         virtual void object_inserted( const object& obj ) override;
+         virtual void object_loaded( const object& obj ) override;
+         virtual void object_created( const object& obj ) override;
          virtual void object_removed( const object& obj ) override;
          virtual void about_to_modify( const object& before ) override;
          virtual void object_modified( const object& after  ) override;
@@ -395,7 +397,8 @@ namespace graphene { namespace chain {
    class balances_by_account_index : public secondary_index
    {
       public:
-         virtual void object_inserted( const object& obj ) override;
+         virtual void object_loaded( const object& obj ) override;
+         virtual void object_created( const object& obj ) override;
          virtual void object_removed( const object& obj ) override;
          virtual void about_to_modify( const object& before ) override;
          virtual void object_modified( const object& after  ) override;

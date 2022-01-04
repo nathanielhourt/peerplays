@@ -1,4 +1,5 @@
 // GPOS HARDFORK Monday, 17 February 2020 22:00:00 GMT
+// The value should be harmonized with the protcol constant named GPOS_PERIOD_START
 #ifndef HARDFORK_GPOS_TIME
 #define HARDFORK_GPOS_TIME (fc::time_point_sec( 1581976800 ))
 #endif

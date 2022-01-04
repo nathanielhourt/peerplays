@@ -55,7 +55,8 @@ class limit_order_group_index : public secondary_index
    public:
       limit_order_group_index( const flat_set<uint16_t>& groups ) : _tracked_groups( groups ) {};
 
-      virtual void object_inserted( const object& obj ) override;
+      virtual void object_loaded( const object& obj ) override;
+      virtual void object_created( const object& obj ) override;
       virtual void object_removed( const object& obj ) override;
       virtual void about_to_modify( const object& before ) override;
       virtual void object_modified( const object& after  ) override;
@@ -76,7 +77,12 @@ class limit_order_group_index : public secondary_index
       map< limit_order_group_key, limit_order_group_data > _og_data;
 };
 
-void limit_order_group_index::object_inserted( const object& objct )
+void limit_order_group_index::object_loaded( const object& objct )
+{
+   object_created(objct);
+}
+
+void limit_order_group_index::object_created( const object& objct )
 { try {
    const limit_order_object& o = static_cast<const limit_order_object&>( objct );
 
@@ -201,7 +207,7 @@ void limit_order_group_index::about_to_modify( const object& objct )
 
 void limit_order_group_index::object_modified( const object& objct )
 { try {
-   object_inserted( objct );
+   object_created( objct );
 } FC_CAPTURE_AND_RETHROW( (objct) ); }
 
 void limit_order_group_index::remove_order( const limit_order_object& o, bool remove_empty )

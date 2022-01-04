@@ -62,7 +62,7 @@ class proposal_object : public abstract_object<proposal_object>
 };
 
 /**
- *  @brief tracks all of the proposal objects that requrie approval of
+ *  @brief tracks all of the proposal objects that require approval of
  *  an individual account.   
  *
  *  @ingroup object
@@ -75,7 +75,8 @@ class proposal_object : public abstract_object<proposal_object>
 class required_approval_index : public secondary_index
 {
    public:
-      virtual void object_inserted( const object& obj ) override;
+      virtual void object_loaded( const object& obj ) override;
+      virtual void object_created( const object& obj ) override;
       virtual void object_removed( const object& obj ) override;
       virtual void about_to_modify( const object& before ) override{};
       virtual void object_modified( const object& after  ) override{};

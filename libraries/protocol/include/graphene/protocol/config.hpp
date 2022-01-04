@@ -222,7 +222,8 @@
 #define SWEEPS_DEFAULT_DISTRIBUTION_ASSET                   (graphene::protocol::asset_id_type(0))
 #define SWEEPS_VESTING_BALANCE_MULTIPLIER                   100000000
 #define SWEEPS_ACCUMULATOR_ACCOUNT                          (graphene::protocol::account_id_type(0))
-#define GPOS_PERIOD_START                                   (fc::time_point_sec(1578272400))
+// // The value should be harmonized with the chain constant named HARDFORK_GPOS_TIME
+#define GPOS_PERIOD_START                                   (fc::time_point_sec(1581976800))
 #define GPOS_PERIOD                                         (60*60*24*30*6) // 6 months
 #define GPOS_SUBPERIOD                                      (60*60*24*30) // 1 month
 #define GPOS_VESTING_LOCKIN_PERIOD                          (60*60*24*30) // 1 month
