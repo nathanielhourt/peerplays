@@ -174,11 +174,14 @@ namespace graphene { namespace db {
             base_primary->delete_secondary_index(secondary);
          }
 
-         // Count the number of objects (indexes) in the specified object space.
-         // Assuming there are no gaps in the list of type IDs in the space, this will be one greater than the last type ID.
-         uint8_t count_objects_in_space(const uint8_t space_id) const {
-             FC_ASSERT(space_id < _index.size(), "Cannot count objects in space ${S}: No such object space", ("S", space_id));
-             return std::count_if(_index[space_id].begin(), _index[space_id].end(), [](const auto& ptr) { return bool(ptr); });
+         // Inspect each index in an object space. F is a callable taking a const index&
+         template<typename F>
+         void inspect_all_indexes(uint8_t space_id, F&& f) const {
+             FC_ASSERT(_index.size() > space_id, "Cannot inspect indexes in space ID ${ID}: no such object space",
+                       ("ID", space_id));
+             for (const auto& ptr : _index[space_id])
+                 if (ptr != nullptr)
+                     f((const index&)(*ptr));
          }
 
          void pop_undo();
