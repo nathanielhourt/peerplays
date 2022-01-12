@@ -14,6 +14,7 @@ set( GRAPHENE_BUILD_DYNAMIC_LIBRARIES OFF CACHE BOOL
      "Whether to build dynamic libraries instead of static. Applies only to chain, db, protocol, net, and utilities" )
 if( GRAPHENE_BUILD_DYNAMIC_LIBRARIES )
     set( CMAKE_POSITION_INDEPENDENT_CODE ON )
+    set( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" )
 endif()
 set( FC_BUILD_DYNAMIC_LIBRARIES ${GRAPHENE_BUILD_DYNAMIC_LIBRARIES} CACHE BOOL "Whether FC should build as a dynamic library rather than static" )
 
