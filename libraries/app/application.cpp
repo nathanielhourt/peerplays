@@ -321,9 +321,8 @@ namespace detail {
             ilog("Initializing database...");
             if( _options->count("genesis-json") )
             {
-               std::string genesis_str;
-               fc::read_file_contents( _options->at("genesis-json").as<boost::filesystem::path>(), genesis_str );
-               genesis_state_type genesis = fc::json::from_string( genesis_str ).as<genesis_state_type>( 20 );
+               genesis_state_type genesis = fc::json::from_file( _options->at("genesis-json").as<boost::filesystem::path>()).as<genesis_state_type>( 20 );
+               std::string genesis_str = fc::json::to_string(genesis) + "\n";
                bool modified_genesis = false;
                if( _options->count("genesis-timestamp") )
                {
