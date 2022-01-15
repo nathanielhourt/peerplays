@@ -7340,6 +7340,31 @@ vector<account_role_object> wallet_api::get_account_roles_by_owner(string owner_
    account_object owner_account = my->get_account(owner_account_id_or_name);
    return my->_remote_db->get_account_roles_by_owner(owner_account.id);
 }
+
+signed_transaction wallet_api::run_custom_operation(string payer_id_or_name, std::vector<string> required_auths, string data, uint16_t id, bool broadcast)
+{
+   account_object payer = my->get_account(payer_id_or_name);
+   custom_operation op;
+
+   // FC offers no way to have quotes in the data string. Add a simple escape option.
+   boost::replace_all(data, "\\\"", "\"");
+   boost::replace_all(data, "\\\\", "\\");
+
+   op.payer = payer.get_id();
+   if (!required_auths.empty())
+      std::transform(required_auths.begin(), required_auths.end(), std::inserter(op.required_auths, op.required_auths.begin()),
+                     [&my=my](const string& name_or_id) { return my->get_account(name_or_id).get_id(); });
+   op.id = id;
+   op.data.reserve(data.size());
+   op.data.assign(data.begin(), data.end());
+
+   signed_transaction trx;
+   trx.operations = {std::move(op)};
+   my->set_operation_fees(trx, my->_remote_db->get_global_properties().parameters.current_fees);
+   trx.validate();
+
+   return my->sign_transaction(std::move(trx), broadcast);
+}
 // default ctor necessary for FC_REFLECT
 signed_block_with_info::signed_block_with_info()
 {
