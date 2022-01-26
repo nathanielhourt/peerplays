@@ -95,6 +95,7 @@ object_id_type update_son_evaluator::do_apply(const son_update_operation& op)
            if(op.new_signing_key.valid()) so.signing_key = *op.new_signing_key;
            if(op.new_sidechain_public_keys.valid()) so.sidechain_public_keys = *op.new_sidechain_public_keys;
            if(op.new_pay_vb.valid()) so.pay_vb = *op.new_pay_vb;
+           if(so.status == son_status::deregistered) so.status = son_status::inactive;
        });
    }
    return op.son_id;

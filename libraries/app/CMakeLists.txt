@@ -4,9 +4,9 @@ file(GLOB EGENESIS_HEADERS "../egenesis/include/graphene/app/*.hpp")
 add_library( graphene_app 
              api.cpp
              application.cpp
+             config_util.cpp
              database_api.cpp
              plugin.cpp
-             config_util.cpp
              ${HEADERS}
              ${EGENESIS_HEADERS}
            )
@@ -56,4 +56,3 @@ INSTALL( TARGETS
    LIBRARY DESTINATION lib
    ARCHIVE DESTINATION lib
 )
-

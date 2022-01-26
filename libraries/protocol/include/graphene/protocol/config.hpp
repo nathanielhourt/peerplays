@@ -23,8 +23,14 @@
  */
 #pragma once
 
+#ifdef BUILD_PEERPLAYS_TESTNET
+#define GRAPHENE_SYMBOL "TEST"
+#define GRAPHENE_ADDRESS_PREFIX "TEST"
+#else
 #define GRAPHENE_SYMBOL "PPY"
 #define GRAPHENE_ADDRESS_PREFIX "PPY"
+#endif
+
 
 #define GRAPHENE_MIN_ACCOUNT_NAME_LENGTH 1
 #define GRAPHENE_MAX_ACCOUNT_NAME_LENGTH 63
@@ -45,6 +51,7 @@
 
 #define GRAPHENE_DEFAULT_BLOCK_INTERVAL  3 /* seconds */
 #define GRAPHENE_DEFAULT_MAX_TRANSACTION_SIZE 2048
+#define GRAPHENE_MAX_NESTED_OBJECTS      (200)
 #define GRAPHENE_DEFAULT_MAX_BLOCK_SIZE  (GRAPHENE_DEFAULT_MAX_TRANSACTION_SIZE*GRAPHENE_DEFAULT_BLOCK_INTERVAL*200000)
 #define GRAPHENE_DEFAULT_MAX_TIME_UNTIL_EXPIRATION (60*60*24) // seconds,  aka: 1 day
 #define GRAPHENE_DEFAULT_MAINTENANCE_INTERVAL  (60*60*24) // seconds, aka: 1 day
@@ -218,12 +225,24 @@
 #define TOURNAMENT_MAX_WHITELIST_LENGTH                     1000
 #define TOURNAMENT_MAX_START_TIME_IN_FUTURE                 (60*60*24*7*4) // 1 month
 #define TOURNAMENT_MAX_START_DELAY                          (60*60*24*7) // 1 week
+#define SON_VESTING_AMOUNT                                  (50*GRAPHENE_BLOCKCHAIN_PRECISION) // 50 PPY
+#define SON_VESTING_PERIOD                                  (60*60*24*2) // 2 days
+#define SON_DEREGISTER_TIME                                 (60*60*12) // 12 Hours in seconds
+#define SON_HEARTBEAT_FREQUENCY                             (60*3) // 3 minutes in seconds
+#define SON_DOWN_TIME                                       (60*3*2) // 2 Heartbeats in seconds
+#define SON_BITCOIN_MIN_TX_CONFIRMATIONS                    (1)
+#define SON_PAY_TIME                                        (60*60*24) // 1 day
+#define SON_PAY_MAX                                         (GRAPHENE_BLOCKCHAIN_PRECISION * int64_t(200))
 #define SWEEPS_DEFAULT_DISTRIBUTION_PERCENTAGE              (2*GRAPHENE_1_PERCENT)
 #define SWEEPS_DEFAULT_DISTRIBUTION_ASSET                   (graphene::protocol::asset_id_type(0))
 #define SWEEPS_VESTING_BALANCE_MULTIPLIER                   100000000
 #define SWEEPS_ACCUMULATOR_ACCOUNT                          (graphene::protocol::account_id_type(0))
 // // The value should be harmonized with the chain constant named HARDFORK_GPOS_TIME
-#define GPOS_PERIOD_START                                   (fc::time_point_sec(1581976800))
+#ifdef BUILD_PEERPLAYS_TESTNET
+#define GPOS_PERIOD_START                                   (fc::time_point_sec::from_iso_string("2020-01-06T01:00:00"))
+#else
+#define GPOS_PERIOD_START                                   (fc::time_point_sec::from_iso_string("2020-02-17T22:00:00"))
+#endif
 #define GPOS_PERIOD                                         (60*60*24*30*6) // 6 months
 #define GPOS_SUBPERIOD                                      (60*60*24*30) // 1 month
 #define GPOS_VESTING_LOCKIN_PERIOD                          (60*60*24*30) // 1 month
@@ -239,14 +258,6 @@
 #define NFT_URI_MAX_LENGTH                                  GRAPHENE_MAX_URL_LENGTH
 
 #define GRAPHENE_DEFAULT_MAX_SONS                           (15)
-#define SON_VESTING_AMOUNT                                  (50*GRAPHENE_BLOCKCHAIN_PRECISION) // 50 PPY
-#define SON_VESTING_PERIOD                                  (60*60*24*2) // 2 days
-#define SON_DEREGISTER_TIME                                 (60*60*12) // 12 Hours in seconds
-#define SON_HEARTBEAT_FREQUENCY                             (60*3) // 3 minutes in seconds
-#define SON_DOWN_TIME                                       (60*3*2) // 2 Heartbeats in seconds
-#define SON_BITCOIN_MIN_TX_CONFIRMATIONS                    (1)
-#define SON_PAY_TIME                                        (60*60*24) // 1 day
-#define SON_PAY_MAX                                         (GRAPHENE_BLOCKCHAIN_PRECISION * int64_t(200))
 
 #define ACCOUNT_ROLES_MAX_PER_ACCOUNT                       20 // Max 20 roles can be created by a resource owner
 #define ACCOUNT_ROLES_MAX_LIFETIME                          365*24*60*60 // 1 Year

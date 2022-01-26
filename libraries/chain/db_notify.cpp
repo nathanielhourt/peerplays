@@ -41,16 +41,15 @@
 #include <graphene/chain/vesting_balance_object.hpp>
 #include <graphene/chain/transaction_history_object.hpp>
 #include <graphene/chain/impacted.hpp>
-#include <graphene/chain/tournament_object.hpp>
-#include <graphene/chain/asset_object.hpp>
+#include <graphene/chain/hardfork.hpp>
 #include <graphene/chain/account_object.hpp>
-#include <graphene/chain/betting_market_object.hpp>
-#include <graphene/chain/offer_object.hpp>
-#include <graphene/chain/custom_permission_object.hpp>
-#include <graphene/chain/nft_object.hpp>
 #include <graphene/chain/account_role_object.hpp>
-#include <graphene/chain/sidechain_address_object.hpp>
 #include <graphene/chain/son_object.hpp>
+#include <graphene/chain/sidechain_address_object.hpp>
+#include <graphene/chain/tournament_object.hpp>
+#include <graphene/chain/custom_permission_object.hpp>
+#include <graphene/chain/offer_object.hpp>
+#include <graphene/chain/nft_object.hpp>
 
 using namespace fc;
 using namespace graphene::chain;
@@ -368,6 +367,13 @@ struct get_impacted_account_visitor
    void operator()( const account_role_delete_operation& op ){
       _impacted.insert( op.owner );
    }
+   void operator()( const nft_lottery_token_purchase_operation& op ){
+      _impacted.insert( op.buyer );
+   }
+   void operator()( const nft_lottery_reward_operation& op ) {
+      _impacted.insert( op.winner );
+   }
+   void operator()( const nft_lottery_end_operation& op ) {}
    void operator()( const son_create_operation& op ) {
       _impacted.insert( op.owner_account );
    }
@@ -424,6 +430,9 @@ struct get_impacted_account_visitor
    }
    void operator()( const sidechain_transaction_settle_operation& op ) {
       _impacted.insert( op.payer );
+   }
+   void operator()( const random_number_store_operation& op ) {
+      _impacted.insert( op.account );
    }
 };
 
@@ -616,6 +625,9 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
         } case sidechain_transaction_object_type:{
            break;
         }
+        default: {
+           break;
+        }
       }
    }
    else if( obj->id.space() == implementation_ids )
@@ -708,6 +720,10 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
            } case impl_son_schedule_object_type: {
               break;
            }
+             case impl_nft_lottery_balance_object_type:
+              break;
+            default:
+              break;
       }
    }
 } // end get_relevant_accounts( const object* obj, flat_set<account_id_type>& accounts )

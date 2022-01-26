@@ -432,7 +432,7 @@ set<public_key_type> signed_transaction::minimize_required_signatures(
       try
       {
          graphene::protocol::verify_authority( operations, result, get_active, get_owner, get_custom,
-                                            ignore_custom_operation_required_auths, max_recursion );
+                                               ignore_custom_operation_required_auths, max_recursion );
          continue;  // element stays erased if verify_authority is ok
       }
       catch( const tx_missing_owner_auth& e ) {}

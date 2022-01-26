@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <fc/container/zeroed_array.hpp>
+#include <graphene/protocol/operations.hpp>
+#include <graphene/protocol/fee_schedule.hpp>
+
 #include <fc/io/raw.hpp>
 #include <fc/uint128.hpp>
-#include <graphene/protocol/operations.hpp>
+#include <fc/container/zeroed_array.hpp>
 
 namespace graphene { namespace protocol {
 

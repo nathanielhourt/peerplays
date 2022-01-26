@@ -42,6 +42,9 @@
 
 namespace graphene { namespace chain {
 
+class witness_schedule_object;
+class son_schedule_object;
+
 typedef hash_ctr_rng<
    /* HashClass  = */ fc::sha256,
    /* SeedLength = */ GRAPHENE_RNG_SEED_LENGTH
@@ -144,7 +147,6 @@ FC_REFLECT_DERIVED(
    (recent_slots_filled)
    (current_shuffled_witnesses)
 )
-
 FC_REFLECT( graphene::chain::son_scheduler,
             (_turns)
             (_tokens)

@@ -271,7 +271,8 @@ GRAPHENE_DEFINE_IDS(protocol, protocol_ids, /*protocol objects are not prefixed*
                     (son_wallet_deposit)
                     (son_wallet_withdraw)
                     (sidechain_address)
-                    (sidechain_transaction))
+                    (sidechain_transaction)
+                    (random_number))
 
 FC_REFLECT(graphene::protocol::public_key_type, (key_data))
 FC_REFLECT(graphene::protocol::public_key_type::binary_key, (data)(check))

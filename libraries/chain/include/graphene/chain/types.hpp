@@ -54,4 +54,5 @@ GRAPHENE_DEFINE_IDS(chain, implementation_ids, impl_,
                     (sweeps_vesting_balance)
                     (offer_history)
                     (son_statistics)
-                    (son_schedule))
+                    (son_schedule)
+                    (nft_lottery_balance))

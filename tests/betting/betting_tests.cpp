@@ -135,7 +135,6 @@ using namespace graphene::chain::keywords;
 //    1.58    50:29  |   2.34   50:67  |    4.6      5:18  |     25      1:24  |    430     1:429  |
 //    1.59   100:59  |   2.36   25:34  |    4.7     10:37
 
-
 BOOST_FIXTURE_TEST_SUITE( betting_tests, database_fixture )
 
 BOOST_AUTO_TEST_CASE(try_create_sport)
