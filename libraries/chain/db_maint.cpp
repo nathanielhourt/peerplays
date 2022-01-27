@@ -47,6 +47,8 @@
 #include <graphene/chain/witness_schedule_object.hpp>
 #include <graphene/chain/worker_object.hpp>
 
+#include <numeric>
+
 namespace graphene { namespace chain {
 
 template<class Index>
