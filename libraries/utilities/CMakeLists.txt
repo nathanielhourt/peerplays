@@ -30,7 +30,7 @@ else()
                  ${HEADERS} )
 endif()
 
-target_link_libraries( graphene_utilities fc )
+target_link_libraries( graphene_utilities fc curl )
 target_include_directories( graphene_utilities
                             PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" )
 if (USE_PCH)
