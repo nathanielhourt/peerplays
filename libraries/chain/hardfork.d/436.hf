@@ -1,8 +1,4 @@
 // #436 Prevent margin call from being triggered unless feed < call price
 #ifndef HARDFORK_436_TIME
-#ifdef BUILD_PEERPLAYS_TESTNET
-#define HARDFORK_436_TIME (fc::time_point_sec::from_iso_string("2015-12-16T18:00:00"))
-#else
-#define HARDFORK_436_TIME (fc::time_point_sec::from_iso_string("2015-12-16T18:00:00"))
-#endif
+#define HARDFORK_436_TIME (fc::time_point_sec( 1450288800 ))
 #endif

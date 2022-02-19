@@ -109,17 +109,19 @@ uint32_t database::last_non_undoable_block_num() const
    return head_block_num() - _undo_db.size();
 }
 
-std::vector<uint32_t> database::get_seeds( asset_id_type for_asset, uint8_t count_winners ) const
+std::vector<uint32_t> database::get_seeds(asset_id_type for_asset, uint8_t count_winners) const
 {
    FC_ASSERT( count_winners <= 64 );
    std::string salted_string = std::string(_random_number_generator._seed) + std::to_string(for_asset.instance.value);
-   uint32_t* seeds = (uint32_t*)(fc::sha256::hash(salted_string)._hash);
+   auto seeds_hash = fc::sha256::hash(salted_string);
+   uint32_t* seeds = (uint32_t*)(seeds_hash._hash);
 
    std::vector<uint32_t> result;
    result.reserve(64);
 
    for( int s = 0; s < 8; ++s ) {
-      uint32_t* sub_seeds = ( uint32_t* ) fc::sha256::hash( std::to_string( seeds[s] ) + std::to_string( for_asset.instance.value ) )._hash;
+      auto sub_seeds_hash = fc::sha256::hash(std::to_string(seeds[s]) + std::to_string(for_asset.instance.value));
+      uint32_t* sub_seeds = (uint32_t*) sub_seeds_hash._hash;
       for( int ss = 0; ss < 8; ++ss ) {
          result.push_back(sub_seeds[ss]);
       }
@@ -224,7 +226,8 @@ std::set<son_id_type> database::get_sons_to_be_deregistered()
    {
       if(son.status == son_status::in_maintenance)
       {
-         auto stats = son.statistics(*this);
+         auto& stats = son.statistics(*this);
+
          // TODO : We need to add a function that returns if we can deregister SON 
          // i.e. with introduction of PW code, we have to make a decision if the SON 
          // is needed for release of funds from the PW
@@ -313,38 +316,6 @@ bool database::is_son_active( son_id_type son_id )
 
    auto it_son = std::find(active_son_ids.begin(), active_son_ids.end(), son_id);
    return (it_son != active_son_ids.end());
-}
-
-vector<uint64_t> database::get_random_numbers(uint64_t minimum, uint64_t maximum, uint64_t selections, bool duplicates)
-{
-   FC_ASSERT( selections <= 100000 );
-   if (duplicates == false) {
-      FC_ASSERT( maximum - minimum >= selections );
-   }
-
-   vector<uint64_t> v;
-   v.reserve(selections);
-
-   if (duplicates) {
-      for (uint64_t i = 0; i < selections; i++) {
-         int64_t rnd = get_random_bits(maximum - minimum) + minimum;
-         v.push_back(rnd);
-      }
-   } else {
-      vector<uint64_t> tmpv;
-      tmpv.reserve(selections);
-      for (uint64_t i = minimum; i < maximum; i++) {
-         tmpv.push_back(i);
-      }
-
-      for (uint64_t i = 0; (i < selections) && (tmpv.size() > 0); i++) {
-         uint64_t idx = get_random_bits(tmpv.size());
-         v.push_back(tmpv.at(idx));
-         tmpv.erase(tmpv.begin() + idx);
-      }
-   }
-
-   return v;
 }
 
 bool database::is_asset_creation_allowed(const string &symbol)

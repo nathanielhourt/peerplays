@@ -40,7 +40,7 @@
 #include <graphene/chain/operation_history_object.hpp>
 #include <graphene/chain/proposal_object.hpp>
 #include <graphene/chain/special_authority_object.hpp>
-#include <graphene/chain/transaction_object.hpp>
+#include <graphene/chain/transaction_history_object.hpp>
 #include <graphene/chain/vesting_balance_object.hpp>
 #include <graphene/chain/withdraw_permission_object.hpp>
 #include <graphene/chain/witness_object.hpp>
@@ -53,7 +53,6 @@
 #include <graphene/chain/custom_account_authority_object.hpp>
 #include <graphene/chain/offer_object.hpp>
 #include <graphene/chain/account_role_object.hpp>
-#include <graphene/chain/random_number_object.hpp>
 
 #include <graphene/chain/nft_object.hpp>
 
@@ -94,17 +93,16 @@
 #include <graphene/chain/custom_account_authority_evaluator.hpp>
 #include <graphene/chain/offer_evaluator.hpp>
 #include <graphene/chain/nft_evaluator.hpp>
+
 #include <graphene/chain/account_role_evaluator.hpp>
-#include <graphene/chain/nft_lottery_evaluator.hpp>
 #include <graphene/chain/son_evaluator.hpp>
 #include <graphene/chain/son_wallet_evaluator.hpp>
 #include <graphene/chain/son_wallet_deposit_evaluator.hpp>
 #include <graphene/chain/son_wallet_withdraw_evaluator.hpp>
 #include <graphene/chain/sidechain_address_evaluator.hpp>
 #include <graphene/chain/sidechain_transaction_evaluator.hpp>
-#include <graphene/chain/random_number_evaluator.hpp>
 
-#include <graphene/chain/protocol/fee_schedule.hpp>
+#include <graphene/protocol/fee_schedule.hpp>
 
 #include <fc/uint128.hpp>
 #include <fc/crypto/digest.hpp>
@@ -152,8 +150,8 @@ const uint8_t operation_history_object::type_id;
 const uint8_t proposal_object::space_id;
 const uint8_t proposal_object::type_id;
 
-const uint8_t transaction_object::space_id;
-const uint8_t transaction_object::type_id;
+const uint8_t transaction_history_object::space_id;
+const uint8_t transaction_history_object::type_id;
 
 const uint8_t vesting_balance_object::space_id;
 const uint8_t vesting_balance_object::type_id;
@@ -205,12 +203,6 @@ const uint8_t offer_history_object::type_id;
 
 const uint8_t account_role_object::space_id;
 const uint8_t account_role_object::type_id;
-
-const uint8_t nft_lottery_balance_object::space_id;
-const uint8_t nft_lottery_balance_object::type_id;
-
-const uint8_t random_number_object::space_id;
-const uint8_t random_number_object::type_id;
 
 void database::initialize_evaluators()
 {
@@ -304,9 +296,6 @@ void database::initialize_evaluators()
    register_evaluator<account_role_create_evaluator>();
    register_evaluator<account_role_update_evaluator>();
    register_evaluator<account_role_delete_evaluator>();
-   register_evaluator<nft_lottery_token_purchase_evaluator>();
-   register_evaluator<nft_lottery_reward_evaluator>();
-   register_evaluator<nft_lottery_end_evaluator>();
    register_evaluator<create_son_evaluator>();
    register_evaluator<update_son_evaluator>();
    register_evaluator<deregister_son_evaluator>();
@@ -326,7 +315,6 @@ void database::initialize_evaluators()
    register_evaluator<sidechain_transaction_sign_evaluator>();
    register_evaluator<sidechain_transaction_send_evaluator>();
    register_evaluator<sidechain_transaction_settle_evaluator>();
-   register_evaluator<random_number_store_evaluator>();
 }
 
 void database::initialize_indexes()
@@ -416,9 +404,7 @@ void database::initialize_indexes()
    add_index< primary_index<lottery_balance_index                         > >();
    add_index< primary_index<sweeps_vesting_balance_index                  > >();
    add_index< primary_index<offer_history_index                           > >();
-   add_index< primary_index<nft_lottery_balance_index                     > >();
    add_index< primary_index<son_stats_index                               > >();
-   add_index< primary_index<random_number_index                           > >();
 
 }
 
@@ -680,7 +666,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
       p.time = genesis_state.initial_timestamp;
       p.dynamic_flags = 0;
       p.witness_budget = 0;
-      p.recent_slots_filled = fc::uint128::max_value();
+      p.recent_slots_filled = std::numeric_limits<fc::uint128_t>::max();
    });
    create<global_betting_statistics_object>([&](global_betting_statistics_object& betting_statistics) {
       betting_statistics.number_of_active_events = 0;
@@ -903,7 +889,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
    for( const auto& handout : genesis_state.initial_balances )
    {
       const auto asset_id = get_asset_id(handout.asset_symbol);
-      create<balance_object>([&handout,&get_asset_id,total_allocation,asset_id](balance_object& b) {
+      create<balance_object>([&handout,total_allocation,asset_id](balance_object& b) {
          b.balance = asset(handout.amount, asset_id);
          b.owner = handout.owner;
       });
@@ -948,6 +934,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
 
    const auto& idx = get_index_type<asset_index>().indices().get<by_symbol>();
    auto it = idx.begin();
+   bool has_imbalanced_assets = false;
 
    while( it != idx.end() )
    {
@@ -959,6 +946,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
          FC_ASSERT( debt_itr != total_debts.end() );
          if( supply_itr->second != debt_itr->second )
          {
+            has_imbalanced_assets = true;
             elog( "Genesis for asset ${aname} is not balanced\n"
                   "   Debt is ${debt}\n"
                   "   Supply is ${supply}\n",
@@ -970,6 +958,10 @@ void database::init_genesis(const genesis_state_type& genesis_state)
       }
       ++it;
    }
+// @romek
+#if 0
+   FC_ASSERT( !has_imbalanced_assets );
+#endif
 
    // Save tallied supplies
    for( const auto& item : total_supplies )
@@ -1049,7 +1041,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
 
       _wso.last_scheduling_block = 0;
 
-      _wso.recent_slots_filled = fc::uint128::max_value();
+      _wso.recent_slots_filled = std::numeric_limits<fc::uint128_t>::max();
 
       // for shuffled
       for( const witness_id_type& wid : get_global_properties().active_witnesses )
@@ -1076,7 +1068,7 @@ void database::init_genesis(const genesis_state_type& genesis_state)
 
       _sso.last_scheduling_block = 0;
 
-      _sso.recent_slots_filled = fc::uint128::max_value();
+      _sso.recent_slots_filled = std::numeric_limits<fc::uint128_t>::max();
    });
    assert( sso.id == son_schedule_id_type() );
 

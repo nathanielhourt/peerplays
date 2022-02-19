@@ -38,10 +38,11 @@ share_type asset_bitasset_data_object::max_force_settlement_volume(share_type cu
    if( options.maximum_force_settlement_volume == GRAPHENE_100_PERCENT )
       return current_supply + force_settled_volume;
 
-   fc::uint128 volume = current_supply.value + force_settled_volume.value;
+   fc::uint128_t volume = current_supply.value;
+   volume += force_settled_volume.value;
    volume *= options.maximum_force_settlement_volume;
    volume /= GRAPHENE_100_PERCENT;
-   return volume.to_uint64();
+   return volume;
 }
 
 void asset_bitasset_data_object::update_median_feeds(time_point_sec current_time)
@@ -266,7 +267,7 @@ map< account_id_type, vector< uint16_t > > asset_object::distribute_winners_part
          *t += percents_to_distribute / holders.size();
    }
    auto sweeps_distribution_percentage = db.get_global_properties().parameters.sweeps_distribution_percentage();
-   for( size_t c = 0; c < winner_numbers.size(); ++c ) {
+   for( int c = 0; c < winner_numbers.size(); ++c ) {
       auto winner_num = winner_numbers[c];
       lottery_reward_operation reward_op;
       reward_op.lottery = get_id();

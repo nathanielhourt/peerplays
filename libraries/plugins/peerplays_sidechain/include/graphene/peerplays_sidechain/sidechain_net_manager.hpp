@@ -1,6 +1,7 @@
 #pragma once
 
-#include <graphene/chain/sidechain_defs.hpp>
+#include <graphene/protocol/sidechain_defs.hpp>
+
 #include <graphene/peerplays_sidechain/peerplays_sidechain_plugin.hpp>
 #include <graphene/peerplays_sidechain/sidechain_net_handler.hpp>
 
@@ -29,8 +30,6 @@ private:
    peerplays_sidechain_plugin &plugin;
    graphene::chain::database &database;
    std::vector<std::unique_ptr<sidechain_net_handler>> net_handlers;
-
-   void on_applied_block(const signed_block &b);
 };
 
 }} // namespace graphene::peerplays_sidechain

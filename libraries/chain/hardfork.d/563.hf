@@ -1,8 +1,4 @@
 // #563 Stealth fee routing
 #ifndef HARDFORK_563_TIME
-#ifdef BUILD_PEERPLAYS_TESTNET
-#define HARDFORK_563_TIME (fc::time_point_sec::from_iso_string("2016-02-23T18:00:00"))
-#else
-#define HARDFORK_563_TIME (fc::time_point_sec::from_iso_string("2016-02-23T18:00:00"))
-#endif
+#define HARDFORK_563_TIME (fc::time_point_sec( 1456250400 ))
 #endif
