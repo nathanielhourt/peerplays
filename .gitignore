@@ -18,6 +18,7 @@ data
 CMakeDoxyfile.in
 
 build
+build__*
 
 build
 
