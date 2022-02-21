@@ -1,8 +1,4 @@
 // #572 Allow asset to update permission flags when no supply exists
 #ifndef HARDFORK_572_TIME
-#ifdef BUILD_PEERPLAYS_TESTNET
-#define HARDFORK_572_TIME (fc::time_point_sec::from_iso_string("2016-02-23T18:00:00"))
-#else
-#define HARDFORK_572_TIME (fc::time_point_sec::from_iso_string("2016-02-23T18:00:00"))
-#endif
+#define HARDFORK_572_TIME (fc::time_point_sec( 1456250400 ))
 #endif

@@ -1,11 +1,13 @@
 #pragma once
+#include <graphene/protocol/types.hpp>
+#include <graphene/protocol/sidechain_defs.hpp>
+#include <graphene/protocol/son_info.hpp>
+
 #include <boost/multi_index/composite_key.hpp>
-#include <graphene/chain/protocol/types.hpp>
-#include <graphene/chain/sidechain_defs.hpp>
-#include <graphene/chain/son_info.hpp>
 
 namespace graphene { namespace chain {
    using namespace graphene::db;
+   using namespace graphene::protocol;
 
    enum class sidechain_transaction_status {
       invalid,
@@ -26,8 +28,7 @@ namespace graphene { namespace chain {
          static const uint8_t space_id = protocol_ids;
          static const uint8_t type_id  = sidechain_transaction_object_type;
 
-         time_point_sec timestamp;
-         sidechain_type sidechain = sidechain_type::unknown;
+         sidechain_type sidechain;
          object_id_type object_id;
          std::string transaction;
          std::vector<son_info> signers;
@@ -38,7 +39,7 @@ namespace graphene { namespace chain {
          uint32_t current_weight = 0;
          uint32_t threshold = 0;
 
-         sidechain_transaction_status status = sidechain_transaction_status::invalid;
+         sidechain_transaction_status status;
    };
 
    struct by_object_id;
@@ -70,8 +71,9 @@ FC_REFLECT_ENUM( graphene::chain::sidechain_transaction_status,
                  (sent)
                  (settled) )
 
+MAP_OBJECT_ID_TO_TYPE(graphene::chain::sidechain_transaction_object)
+
 FC_REFLECT_DERIVED( graphene::chain::sidechain_transaction_object, (graphene::db::object ),
-                    (timestamp)
                     (sidechain)
                     (object_id)
                     (transaction)

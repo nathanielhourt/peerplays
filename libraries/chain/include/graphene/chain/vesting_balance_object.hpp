@@ -23,9 +23,9 @@
  */
 #pragma once
 
-#include <graphene/chain/protocol/asset.hpp>
-#include <graphene/chain/protocol/vesting.hpp>
+#include <graphene/protocol/vesting.hpp>
 
+#include <graphene/protocol/asset.hpp>
 #include <graphene/db/object.hpp>
 #include <graphene/db/generic_index.hpp>
 
@@ -37,6 +37,7 @@
 
 namespace graphene { namespace chain {
    using namespace graphene::db;
+   using namespace graphene::protocol;
 
    struct vesting_policy_context
    {
@@ -89,11 +90,11 @@ namespace graphene { namespace chain {
     */
    struct cdd_vesting_policy
    {
-      uint32_t                       vesting_seconds = 0;
-      fc::uint128_t                  coin_seconds_earned;
+      uint32_t                         vesting_seconds = 0;
+      fc::uint128_t                    coin_seconds_earned;
       /** while coindays may accrue over time, none may be claimed before first_claim date */
-      fc::time_point_sec             start_claim;
-      fc::time_point_sec             coin_seconds_earned_last_update;
+      fc::time_point_sec               start_claim;
+      fc::time_point_sec               coin_seconds_earned_last_update;
 
       /**
        * Compute coin_seconds_earned.  Used to
@@ -200,20 +201,6 @@ namespace graphene { namespace chain {
     */
    struct by_account;
    struct by_asset_balance;
-
-   struct by_asset_balance_helper_asset_id {
-      typedef asset_id_type result_type;
-      result_type operator()(const vesting_balance_object& vbo) const {
-         return vbo.balance.asset_id;
-      }
-   };
-   struct by_asset_balance_helper_asset_amount {
-      typedef share_type result_type;
-      result_type operator()(const vesting_balance_object& vbo) const {
-         return vbo.balance.amount;
-      }
-   };
-
    typedef multi_index_container<
       vesting_balance_object,
       indexed_by<
@@ -224,9 +211,11 @@ namespace graphene { namespace chain {
         ordered_non_unique< tag<by_asset_balance>,
            composite_key<
               vesting_balance_object,
-              by_asset_balance_helper_asset_id,
+              member_offset<vesting_balance_object, asset_id_type, (size_t) (offsetof(vesting_balance_object,balance) + offsetof(asset,asset_id))>,
               member<vesting_balance_object, vesting_balance_type, &vesting_balance_object::balance_type>,
-              by_asset_balance_helper_asset_amount
+              member_offset<vesting_balance_object, share_type, (size_t) (offsetof(vesting_balance_object,balance) + offsetof(asset,amount))>
+              //member<vesting_balance_object, account_id_type, &vesting_balance_object::owner>
+              //member_offset<vesting_balance_object, account_id_type, (size_t) (offsetof(vesting_balance_object,owner))>
            >,
            composite_key_compare<
               std::less< asset_id_type >,
@@ -243,6 +232,8 @@ namespace graphene { namespace chain {
    typedef generic_index<vesting_balance_object, vesting_balance_multi_index_type> vesting_balance_index;
 
 } } // graphene::chain
+
+MAP_OBJECT_ID_TO_TYPE(graphene::chain::vesting_balance_object)
 
 FC_REFLECT(graphene::chain::linear_vesting_policy,
            (begin_timestamp)

@@ -51,7 +51,7 @@ genesis_state_type make_genesis() {
 
    auto init_account_priv_key = fc::ecc::private_key::regenerate(fc::sha256::hash(string("null_key")));
    genesis_state.initial_active_witnesses = 10;
-   for( uint64_t i = 0; i < genesis_state.initial_active_witnesses; ++i )
+   for( int i = 0; i < genesis_state.initial_active_witnesses; ++i )
    {
       auto name = "init"+fc::to_string(i);
       genesis_state.initial_accounts.emplace_back(name,
@@ -1031,9 +1031,9 @@ BOOST_FIXTURE_TEST_CASE( rsf_missed_blocks, database_fixture )
    {
       generate_block();
 
-      auto rsf = [&]() -> string
+      auto rsf = [this]() -> string
       {
-         fc::uint128 rsf;
+         fc::uint128_t rsf;
          if (db.get_global_properties().parameters.witness_schedule_algorithm == GRAPHENE_WITNESS_SCHEDULED_ALGORITHM)
             rsf = db.get(witness_schedule_id_type()).recent_slots_filled;
          else
@@ -1042,7 +1042,7 @@ BOOST_FIXTURE_TEST_CASE( rsf_missed_blocks, database_fixture )
          result.reserve(128);
          for( int i=0; i<128; i++ )
          {
-            result += ((rsf.lo & 1) == 0) ? '0' : '1';
+            result += rsf & 1 ? '1' : '0';
             rsf >>= 1;
          }
          return result;

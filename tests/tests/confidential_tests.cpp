@@ -25,7 +25,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <graphene/chain/database.hpp>
-#include <graphene/chain/protocol/protocol.hpp>
+#include <graphene/protocol/protocol.hpp>
 #include <graphene/chain/exceptions.hpp>
 
 #include <graphene/chain/account_object.hpp>
@@ -64,6 +64,7 @@ BOOST_AUTO_TEST_CASE( confidential_test )
 
    auto InB1  = fc::sha256::hash("InB1");
    auto InB2  = fc::sha256::hash("InB2");
+   auto OutB  = fc::sha256::hash("InB2");
    auto nonce1 = fc::sha256::hash("nonce");
    auto nonce2 = fc::sha256::hash("nonce2");
 

@@ -1,5 +1,6 @@
 #include <graphene/chain/son_evaluator.hpp>
 
+#include <graphene/protocol/vote.hpp>
 #include <graphene/chain/database.hpp>
 #include <graphene/chain/son_object.hpp>
 #include <graphene/chain/witness_object.hpp>
@@ -40,7 +41,7 @@ object_id_type create_son_evaluator::do_apply(const son_create_operation& op)
 { try {
     vote_id_type vote_id;
     db().modify(db().get_global_properties(), [&vote_id](global_property_object& p) {
-        vote_id = get_next_vote_id(p, vote_id_type::son);
+        vote_id = vote_id_type(vote_id_type::son, p.next_available_vote_id++);
     });
 
     const auto& new_son_object = db().create<son_object>( [&]( son_object& obj ){
@@ -94,7 +95,6 @@ object_id_type update_son_evaluator::do_apply(const son_update_operation& op)
            if(op.new_signing_key.valid()) so.signing_key = *op.new_signing_key;
            if(op.new_sidechain_public_keys.valid()) so.sidechain_public_keys = *op.new_sidechain_public_keys;
            if(op.new_pay_vb.valid()) so.pay_vb = *op.new_pay_vb;
-           if(so.status == son_status::deregistered) so.status = son_status::inactive;
        });
    }
    return op.son_id;

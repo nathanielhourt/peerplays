@@ -71,7 +71,10 @@ int main(int argc, char** argv) {
             ("help,h", "Print this help message and exit.")
             ("data-dir,d", bpo::value<boost::filesystem::path>()->default_value("witness_node_data_dir"),
                     "Directory containing databases, configuration file, etc.")
-            ("version,v", "Display version information");
+            ("version,v", "Display version information")
+            ("plugins", bpo::value<std::string>()
+                            ->default_value("witness account_history market_history accounts_list affiliate_stats bookie"),
+                    "Space-separated list of plugins to activate");
 
       bpo::variables_map options;
 
@@ -162,7 +165,7 @@ int main(int argc, char** argv) {
       node->startup();
       node->startup_plugins();
 
-      fc::promise<int>::ptr exit_promise = new fc::promise<int>("UNIX Signal Handler");
+      fc::promise<int>::ptr exit_promise = fc::promise<int>::create("UNIX Signal Handler");
 
       fc::set_signal_handler([&exit_promise](int signal) {
          elog( "Caught SIGINT attempting to exit cleanly" );

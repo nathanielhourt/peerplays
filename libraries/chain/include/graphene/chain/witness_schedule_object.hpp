@@ -22,16 +22,25 @@
  * THE SOFTWARE.
  */
 #pragma once
-#include <graphene/chain/protocol/types.hpp>
-#include <graphene/db/object.hpp>
-#include <graphene/db/generic_index.hpp>
 #include <graphene/chain/witness_scheduler.hpp>
 #include <graphene/chain/witness_scheduler_rng.hpp>
+#include <graphene/chain/types.hpp>
+
+#include <graphene/protocol/chain_parameters.hpp>
+
+#include <graphene/db/object.hpp>
+#include <graphene/db/generic_index.hpp>
+
+#include <fc/uint128.hpp>
+
+#include <graphene/protocol/chain_parameters.hpp>
+
+#include <graphene/db/object.hpp>
+#include <graphene/db/generic_index.hpp>
+
+#include <fc/uint128.hpp>
 
 namespace graphene { namespace chain {
-
-class witness_schedule_object;
-class son_schedule_object;
 
 typedef hash_ctr_rng<
    /* HashClass  = */ fc::sha256,
@@ -81,13 +90,13 @@ class witness_schedule_object : public graphene::db::abstract_object<witness_sch
       witness_scheduler scheduler;
       uint32_t last_scheduling_block;
       uint64_t slots_since_genesis = 0;
-      fc::array< char, sizeof(secret_hash_type) > rng_seed;
+      std::array< char, sizeof(secret_hash_type) > rng_seed = {};
 
       /**
        * Not necessary for consensus, but used for figuring out the participation rate.
        * The nth bit is 0 if the nth slot was unfilled, else it is 1.
        */
-      fc::uint128 recent_slots_filled;
+      fc::uint128_t recent_slots_filled;
 };
 
 class son_schedule_object : public graphene::db::abstract_object<son_schedule_object>
@@ -101,17 +110,19 @@ class son_schedule_object : public graphene::db::abstract_object<son_schedule_ob
       son_scheduler scheduler;
       uint32_t last_scheduling_block;
       uint64_t slots_since_genesis = 0;
-      fc::array< char, sizeof(secret_hash_type) > rng_seed;
+      std::array< char, sizeof(secret_hash_type) > rng_seed = {};
 
       /**
        * Not necessary for consensus, but used for figuring out the participation rate.
        * The nth bit is 0 if the nth slot was unfilled, else it is 1.
        */
-      fc::uint128 recent_slots_filled;
+      fc::uint128_t recent_slots_filled;
 };
 
 } }
 
+MAP_OBJECT_ID_TO_TYPE(graphene::chain::witness_schedule_object)
+MAP_OBJECT_ID_TO_TYPE(graphene::chain::son_schedule_object)
 
 FC_REFLECT( graphene::chain::witness_scheduler,
             (_turns)
@@ -133,6 +144,7 @@ FC_REFLECT_DERIVED(
    (recent_slots_filled)
    (current_shuffled_witnesses)
 )
+
 FC_REFLECT( graphene::chain::son_scheduler,
             (_turns)
             (_tokens)
